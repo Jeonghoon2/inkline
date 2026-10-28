@@ -1,0 +1,57 @@
+/* 공통 — Ink & Highlighter: 종이 바탕, 잉크 글자, 강조는 형광펜 하나. 종류는 라벨 글자색으로만 가른다 */
+:root {
+  --bg: #fbfaf6; --card: #ffffff; --line: #e6e3da; --soft: #efede6; --fg: #17171b; --sub: #3b3a36; --muted: #63625d; --accent: #2c56c9;
+  --t-feat: #2c56c9; --t-fix: #a64f0c; --t-perf: #1d7046; --t-ship: #7239b3; --t-doc: #0d6676; --t-trouble: #b8322a; --t-etc: #63625d;
+  --hl: #ffe680; --hl-soft: #fbf7e3; --heat0: #ebe9e2; --heat1: #c9c6bb; --heat2: #9b988d; --heat3: #5d5b54; --heat4: #17171b;
+  color-scheme: light;
+  --sans: "IBM Plex Sans KR", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  --mono: "IBM Plex Mono", "IBM Plex Sans KR", ui-monospace, monospace;
+}
+/* 어두운 테마 — 머리말의 단추로 바꾼다(처음엔 시스템 설정을 따른다, template.html 의 첫 스크립트) */
+:root[data-theme="dark"] { color-scheme: dark; --bg: #121214; --card: #1a1a1e; --line: #2c2c32; --soft: #24242a; --fg: #ecebe6; --sub: #cfcdc5; --muted: #9a998f; --accent: #8fa8f5;
+    --t-feat: #8fa8f5; --t-fix: #f0a35e; --t-perf: #6fcf97; --t-ship: #c39af0; --t-doc: #6fc6d6; --t-trouble: #f08a80; --t-etc: #9a998f;
+    --hl: rgb(250 204 21 / .34); --hl-soft: rgb(250 204 21 / .1); --heat0: #26262c; --heat1: #45453f; --heat2: #77756b; --heat3: #b3b0a4; --heat4: #ecebe6; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.6 var(--sans); }
+a { color: var(--accent); }
+.wrap { max-width: 1180px; margin: 0 auto; padding: 40px 24px 80px; }
+.num { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--mono); }
+.top { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 28px; }
+.eyebrow { font-size: 12px; color: var(--muted); letter-spacing: .06em; }
+.top h1 { margin: 4px 0 0; font-size: 34px; line-height: 1.2; letter-spacing: -0.02em; }
+.tabs { display: flex; gap: 4px; padding: 4px; background: var(--soft); border-radius: 10px; }
+.tabs button { height: 36px; padding: 0 14px; border: 0; border-radius: 7px; background: none; color: var(--muted); font: inherit; font-size: 14px; cursor: pointer; }
+.tabs button.on { background: var(--card); color: var(--fg); font-weight: 600; box-shadow: 0 1px 2px rgb(23 23 27 / .08); }
+.top-r { display: flex; align-items: center; gap: 8px; }
+.theme { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 0; border-radius: 8px; background: var(--soft); color: var(--fg); font-size: 18px; cursor: pointer; }
+.theme:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.empty { color: var(--muted); padding: 40px 0; text-align: center; }
+.b { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; color: var(--t, var(--muted)); background: color-mix(in srgb, var(--t, var(--muted)) 12%, var(--card)); }
+/* 형광펜 개념 — 올리면 원리 말풍선(#tip) */
+/* 크기를 등록한 변수로 둔다 — 그어지는 가로(--hlx, motion.css)와 올리면 차오르는 세로(--hly)를 따로 움직인다 */
+@property --hlx { syntax: '<percentage>'; inherits: false; initial-value: 100%; }
+@property --hly { syntax: '<percentage>'; inherits: false; initial-value: 55%; }
+mark.cc, mark.cc-h { background: linear-gradient(var(--hl), var(--hl)) no-repeat left bottom / var(--hlx) var(--hly); color: inherit; padding: 0 2px; border-radius: 2px; }
+mark.cc { cursor: help; }
+mark.cc:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+#tip { position: fixed; z-index: 10; max-width: min(400px, calc(100vw - 16px)); padding: 12px 14px; border-radius: 10px; background: var(--fg); color: var(--bg); font-size: 13.5px; line-height: 1.6; pointer-events: none; box-shadow: 0 10px 30px rgb(0 0 0 / .22); }
+#tip p { margin: 4px 0 0; }
+#tip small { display: block; margin-top: 8px; opacity: .7; }
+/* 아이콘 — 글자 크기(1em)·글자색을 따른다. 채우는 그림(.f)만 면, 나머지는 2px 선 */
+.ic { width: 1em; height: 1em; vertical-align: -0.125em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.ic .f { fill: currentColor; stroke: none; }
+.ic.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+/* 페이지 읽은 만큼 띠·맨 위로 단추 — 스크롤을 따라갈 뿐 저절로 움직이지 않아 '동작 줄이기'에서도 둔다. 스크롤 애니메이션을 못 쓰는 브라우저는 단추가 늘 보인다 */
+.page-progress { position: fixed; top: 0; left: 0; right: 0; z-index: 5; height: 3px; background: var(--fg); transform: scaleX(0); transform-origin: left; pointer-events: none; }
+.to-top { position: fixed; right: 24px; bottom: 24px; z-index: 5; display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--fg); color: var(--bg); font-size: 20px; cursor: pointer; }
+.to-top:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@supports (animation-timeline: scroll()) {
+  .page-progress { animation: grow-x linear both; animation-timeline: scroll(root); }
+  .to-top { animation: to-top-in linear both; animation-timeline: scroll(root); animation-range: 300px 500px; }
+}
+@keyframes grow-x { to { transform: scaleX(1); } }
+@keyframes to-top-in { from { opacity: 0; transform: translateY(16px) scale(.8); visibility: hidden; } to { opacity: 1; transform: none; visibility: visible; } }
+@media print { .page-progress, .to-top { display: none; } }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } .ic.spin { animation: none; } } /* 읽은 만큼 띠는 스크롤을 따라갈 뿐 저절로 움직이지 않아 둔다 */

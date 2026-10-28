@@ -1,0 +1,86 @@
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; margin: 0; }
+body { background: var(--rail); color: var(--fg); font: 14px/1.5 var(--sans); -webkit-font-smoothing: antialiased; overflow: hidden; }
+button, input, select, textarea { font: inherit; color: inherit; }
+::placeholder { color: var(--muted); opacity: 1; } /* 브라우저 기본 회색은 어두운 테마에서 3:1 남짓 */
+.err { color: var(--bad); } /* 오류 글 — 화면별 규칙은 글자 크기 · 간격만 */
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } /* 화면에 안 보이고 읽기 도구만 읽는 글 */
+.warn { color: var(--t-fix); } /* 오류가 아닌 주의 · 확인 안내 */
+
+/* 3칸: 레일 64 · 보조 사이드바 280 · 본문 */
+.app { display: grid; grid-template-columns: 64px auto 1fr; height: 100%; padding: 0 8px 8px 0; }
+/* 창 버튼(빨강 · 노랑 · 초록) 띠 — 카드는 이 아래에서 시작하고, 띠를 끌면 창이 움직인다 */
+.app::before { content: ''; position: fixed; top: 0; left: 0; right: 0; height: 36px; -webkit-app-region: drag; }
+.drag { -webkit-app-region: drag; }
+.drag button, .drag input, .drag a { -webkit-app-region: no-drag; }
+
+.rail { display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 44px; }
+.rail button { position: relative; width: 40px; height: 40px; display: grid; place-items: center; border: 0; border-radius: 10px; background: transparent; color: var(--sub); cursor: pointer; }
+.rail button:hover { background: var(--hover); }
+.rail button[aria-current='page'] { background: var(--active); color: var(--fg); }
+/* 지금 위치 — 레일엔 글자 이름이 없어 바탕만으로는 약하다. 왼쪽 끝 강조색 막대 */
+.rail button[aria-current='page']::before { content: ''; position: absolute; left: -12px; top: 10px; bottom: 10px; width: 3px; border-radius: 0 3px 3px 0; background: var(--accent); }
+/* 이름표 — 마우스를 올리거나 키보드로 고르면 오른쪽에 바로 뜬다 */
+.rail { position: relative; z-index: 3; }
+.rail button[data-tip] { position: relative; }
+.rail button[data-tip]::after { content: attr(data-tip); position: absolute; left: calc(100% + 8px); top: 50%; transform: translate(-4px, -50%); padding: 4px 8px; border-radius: 6px; background: var(--primary); color: var(--on-primary); font-size: 12px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .12s, transform .12s; }
+.rail button[data-tip]:hover::after, .rail button[data-tip]:focus-visible::after { opacity: 1; transform: translate(0, -50%); }
+.rail hr { width: 24px; border: 0; border-top: 1px solid var(--line); margin: 4px 0; }
+.rail .spacer { flex: 1; }
+
+.side { width: 280px; display: flex; flex-direction: column; background: var(--side); border-radius: 12px 0 0 12px; margin-top: 36px; border: 1px solid var(--line); border-right: 0; overflow: hidden; }
+.side.collapsed { display: none; }
+.side-head { height: 52px; display: flex; align-items: center; gap: 4px; padding: 0 12px 0 20px; }
+.side-head h1 { flex: 1; margin: 0; font-size: 18px; font-weight: 600; }
+.side-body { flex: 1; overflow: auto; padding: 4px 12px 16px; }
+.side-item { display: flex; align-items: center; gap: 10px; width: 100%; height: 34px; padding: 0 8px; border: 0; border-radius: 8px; background: transparent; text-align: left; cursor: pointer; color: var(--fg); }
+.side-item:hover { background: var(--hover); }
+.side-item[aria-current='true'] { background: var(--active); box-shadow: inset 3px 0 0 var(--accent); }
+.side-label { margin: 18px 8px 6px; font-size: 13px; color: var(--muted); }
+.side-hint { margin: 0 8px; font-size: 13px; }
+
+.main { grid-column: 3; position: relative; background: var(--main); border: 1px solid var(--line); border-radius: 12px; margin-top: 36px; overflow: auto; }
+.side:not(.collapsed) + .main { border-radius: 0 12px 12px 0; }
+.main-top { position: sticky; top: 0; height: 52px; display: flex; align-items: center; gap: 8px; padding: 0 16px; z-index: 1; }
+
+.icon-btn { width: 32px; height: 32px; display: grid; place-items: center; border: 0; border-radius: 8px; background: transparent; color: var(--sub); cursor: pointer; }
+.icon-btn:hover { background: var(--hover); color: var(--fg); }
+
+.empty { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 16px; padding: 24px; text-align: center; }
+.empty svg { color: var(--muted); }
+.empty h2 { margin: 0; font-size: 28px; font-weight: 500; letter-spacing: -0.02em; }
+
+.btn { height: 32px; padding: 0 12px; border: 1px solid var(--field-line); border-radius: 8px; background: var(--main); cursor: pointer; }
+.btn:hover { background: var(--hover); }
+.btn-primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
+.btn-primary:hover { opacity: 0.88; background: var(--primary); }
+/* 지우기 · 두 단계 단추(ConfirmButton)의 확인 단계 */
+.btn.danger { background: var(--main); border-color: var(--bad); color: var(--bad); } /* 흰 글자 + --bad 바탕은 어두운 테마에서 2.6:1 이라 테두리 · 글자로 */
+.btn.danger:hover { background: var(--hover); }
+/* 꺼진 단추는 어디서나 흐리게 — 눌러도 아무 일 없는 이유가 보이게 */
+.btn:disabled, .btn:disabled:hover { opacity: 0.45; cursor: default; background: var(--main); }
+.btn-primary:disabled, .btn-primary:disabled:hover { background: var(--primary); }
+.field { height: 32px; padding: 0 10px; border: 1px solid var(--field-line); border-radius: 8px; background: var(--main); }
+textarea.field { height: auto; padding: 6px 10px; line-height: 1.5; } /* rows 가 높이를 정한다 */
+.muted { color: var(--muted); }
+:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+
+/* 드롭다운 — shell/Select.tsx */
+.select { display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 10px 0 12px; border: 1px solid var(--field-line); border-radius: 8px; background: var(--main); color: var(--fg); font: inherit; cursor: pointer; max-width: 100%; }
+.select:hover:not(:disabled) { background: var(--hover); }
+.select[aria-expanded='true'] { border-color: var(--fg); }
+.select:disabled { opacity: 0.5; cursor: default; }
+.select svg { flex: none; color: var(--muted); }
+.select-v { flex: 1; text-align: left; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.select.chip { height: 24px; padding: 0 6px 0 8px; gap: 4px; border: 0; border-radius: 12px; background: var(--hover); color: var(--sub); font-size: 12px; }
+.select.chip:hover:not(:disabled) { background: var(--active); }
+.select-list { position: fixed; z-index: 50; margin: 0; padding: 4px; list-style: none; overflow-y: auto; background: var(--main); border: 1px solid var(--line); border-radius: 10px; box-shadow: var(--shadow); outline: none; }
+.select-list li { position: relative; display: flex; align-items: center; gap: 12px; height: 30px; padding: 0 12px 0 28px; border-radius: 6px; white-space: nowrap; cursor: pointer; }
+.select-list li.on { background: var(--hover); }
+.select-list li svg { position: absolute; left: 8px; }
+.select-list li[aria-disabled] { color: var(--muted); cursor: default; }
+.select-hint { margin-left: auto; color: var(--muted); font-size: 12px; }
+.theme-swatch { margin-left: auto; flex: none; width: 18px; height: 18px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgb(128 128 128 / 0.35); background: linear-gradient(135deg, var(--main) 50%, var(--accent) 50%); }
+.side-check { display: flex; align-items: center; gap: 2px; }
+.side-check input { flex: none; width: 16px; height: 16px; margin: 0 4px 0 8px; accent-color: var(--fg); cursor: pointer; }
+.side-check .side-item { flex: 1; min-width: 0; }

@@ -1,0 +1,8 @@
+[
+  { "key": "binary-search", "name": "이분 탐색", "nature": "algorithm", "tag": "" },
+  { "key": "dynamic-programming", "name": "동적 계획법", "nature": "algorithm", "tag": "" },
+  { "key": "union-find", "name": "유니온 파인드", "nature": "datastructure", "tag": "" },
+  { "key": "dijkstra", "name": "다익스트라", "nature": "algorithm", "tag": "" },
+  { "key": "topological-sort", "name": "위상 정렬", "nature": "algorithm", "tag": "" },
+  { "key": "prefix-sum", "name": "누적 합", "nature": "algorithm", "tag": "" }
+]

@@ -1,0 +1,90 @@
+{
+  "name": "inkline",
+  "productName": "Inkline",
+  "version": "0.1.0",
+  "private": true,
+  "description": "개발자 학습 앱 — 작업 기록 · 주간 보고 · 이력서 · 코테 연습",
+  "main": "out/main/index.js",
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "ai:smoke": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/ai-smoke.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test \"tests/**/*.test.ts\"",
+    "dist": "npm run skills:bundle && electron-vite build && electron-builder --mac dmg --arm64",
+    "skills:public": "node scripts/public-skills.mjs",
+    "dist:win": "npm run skills:bundle && electron-vite build && electron-builder --win nsis --x64",
+    "skills:bundle": "rm -rf build/skills && cp -R skills build/skills && for d in build/skills/*; do date +%Y%m%d%H%M%S > \"$d/.inkline-bundle\"; done"
+  },
+  "devDependencies": {
+    "@remotion/player": "4.0.535",
+    "@types/node": "24.19.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "5.2.0",
+    "dompurify": "3.4.15",
+    "electron": "44.4.5",
+    "electron-builder": "26.17.0",
+    "electron-vite": "5.0.0",
+    "lucide-react": "1.48.0",
+    "monaco-editor": "0.57.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "remotion": "4.0.535",
+    "typescript": "6.0.3",
+    "vite": "7.3.6"
+  },
+  "dependencies": {
+    "pdfjs-dist": "6.4.299"
+  },
+  "build": {
+    "appId": "io.github.jeonghoon2.inkline",
+    "productName": "Inkline",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "out/**",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "build/skills",
+        "to": "skills"
+      }
+    ],
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.developer-tools",
+      "icon": "build/icon.icns",
+      "identity": "-",
+      "hardenedRuntime": false
+    },
+    "dmg": {
+      "title": "Inkline"
+    },
+    "win": {
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerLanguages": [
+        "ko_KR"
+      ],
+      "language": "1042",
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "installerSidebar": "build/installerSidebar.bmp",
+      "installerHeader": "build/installerHeader.bmp",
+      "shortcutName": "Inkline",
+      "uninstallDisplayName": "Inkline",
+      "createDesktopShortcut": true,
+      "runAfterFinish": true,
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}

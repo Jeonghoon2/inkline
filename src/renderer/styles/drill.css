@@ -1,0 +1,17 @@
+/* 면접 연습 탭 — tabs/Drill.tsx */
+.drill { max-width: 720px; margin: 0 auto; padding: 24px 0; min-width: 0; }
+.drill-stat { display: flex; justify-content: space-between; padding: 4px 12px; font-size: 13.5px; color: var(--sub); }
+.drill-card { display: flex; flex-direction: column; gap: 14px; }
+.drill-concept { font-size: 12.5px; color: var(--muted); }
+.drill-q { margin: 0; font-size: 22px; line-height: 1.45; font-weight: 600; overflow-wrap: anywhere; }
+.drill-mine { width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid var(--field-line); border-radius: 8px; background: var(--main); color: var(--fg); font: inherit; font-size: 14px; resize: vertical; }
+.drill-card > .btn { align-self: flex-start; }
+.drill-ans { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.6; padding: 14px 16px; border: 1px solid var(--line); border-radius: 10px; background: var(--hl-soft); }
+.drill-why { font-size: 13.5px; color: var(--sub); line-height: 1.6; padding: 12px 14px; border-radius: 10px; background: var(--side); overflow-wrap: anywhere; }
+.drill-grades { display: flex; flex-wrap: wrap; gap: 8px; }
+.drill-grades kbd { margin-left: 6px; font-size: 11px; color: var(--muted); }
+.drill-g0 { color: var(--bad); }
+.drill-g1 { color: var(--t-fix); }
+.drill-g2 { color: var(--ok); }
+.drill-done { text-align: center; padding: 64px 0; }
+.drill-done h2 { margin: 0 0 8px; font-size: 18px; }

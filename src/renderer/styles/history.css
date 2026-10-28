@@ -1,0 +1,211 @@
+/* 타임라인 — 개요·거르기·날짜 칸 목록(카드/압축)·상세 창(기사형 + 오른쪽 칸) */
+.history { max-width: 1180px; margin: 0 auto; padding: 0 32px 48px; }
+.history :is(.err, .warn) { font-size: 13px; margin: 0 0 12px; }
+.h-none { padding: 40px 0; text-align: center; color: var(--muted); }
+.num { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--mono); }
+.overview { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; }
+.ov-card { background: var(--main); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; }
+.ov-week { flex: 4 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
+.ov-map { flex: 5 1 340px; min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+.ov-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-weight: 600; }
+.ov-h span + span { font-size: 12px; font-weight: 400; color: var(--muted); }
+.ov-big { display: flex; align-items: baseline; gap: 8px; color: var(--muted); }
+.ov-big b { font-size: 44px; font-weight: 600; line-height: 1; color: var(--fg); }
+.ov-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ov-none { color: var(--muted); font-size: 13px; }
+.ov-stats { flex: 3 1 240px; min-width: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.ov-stat { padding: 16px 18px; }
+.ov-stat b { display: block; font-size: 26px; font-weight: 600; line-height: 1.3; }
+.ov-stat span { font-size: 13px; color: var(--muted); }
+.heat-grid { display: flex; gap: 4px; overflow-x: auto; }
+.heat-col { display: grid; grid-template-rows: repeat(7, 16px) auto; gap: 4px; }
+.heat-days { margin-right: 6px; font-size: 11px; line-height: 16px; color: var(--muted); }
+.heat { width: 16px; height: 16px; border-radius: 4px; }
+.heat.future { border: 1px dashed var(--line); }
+button.heat { padding: 0; border: 0; cursor: pointer; }
+button.heat:hover, button.heat:focus-visible { outline: 2px solid var(--fg); outline-offset: 1px; }
+button.heat[aria-pressed="true"] { outline: 2px solid var(--accent); outline-offset: 1px; }
+.heat-label { font-size: 10.5px; color: var(--muted); white-space: nowrap; width: 16px; overflow: visible; }
+.heat-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; font-size: 12px; color: var(--muted); }
+.heat-legend span { width: 12px; height: 12px; border-radius: 3px; }
+
+.filters { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+.ftypes { display: flex; flex-wrap: wrap; gap: 4px; }
+.ftypes button { height: 34px; padding: 0 13px; border: 0; border-radius: 8px; background: none; color: var(--fg); font: inherit; font-size: 14px; cursor: pointer; }
+.ftypes button span { color: var(--muted); }
+.ftypes button:hover { background: var(--hover); }
+.ftypes button[aria-pressed="true"] { background: var(--fg); color: var(--main); font-weight: 600; }
+.ftypes button[aria-pressed="true"] span { color: inherit; opacity: .7; }
+.fright { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.fright input { height: 36px; padding: 0 10px; border: 1px solid var(--field-line); border-radius: 8px; background: var(--main); color: var(--fg); font: inherit; font-size: 14px; }
+.fright input { width: 220px; }
+.ftag, .fchip { height: 32px; padding: 0 12px; border: 1px solid var(--accent); border-radius: 999px; background: color-mix(in srgb, var(--accent) 10%, var(--main)); color: var(--fg); font: inherit; font-size: 13px; cursor: pointer; }
+.fview { display: flex; padding: 3px; background: var(--hover); border-radius: 8px; }
+.fview button { height: 30px; padding: 0 12px; border: 0; border-radius: 6px; background: none; color: var(--muted); font: inherit; font-size: 13px; cursor: pointer; }
+.fview button[aria-pressed="true"] { background: var(--main); color: var(--fg); font-weight: 600; }
+
+.month { margin: 26px 0 8px; font-size: 12px; color: var(--muted); letter-spacing: .06em; }
+.day { display: flex; flex-wrap: wrap; gap: 0 28px; }
+.day-date { flex: 0 0 110px; padding-top: 14px; position: sticky; top: 52px; align-self: flex-start; } /* 그날 기록이 끝날 때까지 위 띠(.main-top 52px) 아래에 붙는다 */
+.day-date b { display: block; font-size: 20px; font-weight: 600; line-height: 1.2; }
+.day-date small { font-size: 13px; color: var(--muted); }
+.day-items { flex: 999 1 560px; min-width: 0; display: flex; flex-direction: column; gap: 12px; border-left: 2px solid var(--line); padding: 8px 0 22px 26px; }
+.item { position: relative; background: var(--main); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; cursor: pointer; }
+.item::before { content: ''; position: absolute; left: -34px; top: 22px; width: 12px; height: 12px; border-radius: 50%; background: var(--t); border: 3px solid var(--main); }
+.item:hover, .item:focus-visible { border-color: var(--fg); outline: none; }
+.item-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.cat { font-size: 13px; color: var(--muted); }
+.item-meta { margin-left: auto; font-size: 12px; color: var(--muted); }
+.item-meta svg, .d-concepts svg { font-size: .85em; }
+.item h3 { margin: 8px 0 4px; font-size: 17px; line-height: 1.45; }
+.item p { margin: 0; color: var(--sub); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.day.is-compact .day-items { border-left: 0; padding-left: 0; gap: 6px; }
+.hrow { display: flex; align-items: center; gap: 14px; min-height: 50px; padding: 0 16px; background: var(--main); border: 1px solid var(--line); border-radius: 12px; cursor: pointer; }
+.hrow:hover, .hrow:focus-visible { border-color: var(--fg); outline: none; }
+.hrow-t { flex: 1; min-width: 0; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* 상세 창 — 창은 그대로 두고 안의 .detail-body 만 스크롤한다. 닫기 단추와 읽은 만큼 띠는 창에 붙어 따라 내려오지 않는다 */
+dialog.detail { width: min(1120px, calc(100vw - 32px)); max-height: calc(100vh - 48px); overflow: hidden; timeline-scope: --d-read; padding: 0; border: 1px solid var(--line); border-radius: 16px; background: var(--side); color: var(--fg); }
+dialog.detail::backdrop { background: rgb(0 0 0 / .45); }
+.detail-body { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-start; max-height: calc(100vh - 50px); overflow-y: auto; overscroll-behavior: contain; padding: 36px 80px 44px 40px; font-size: 16px; line-height: 1.75; /* 오른쪽 80 — 떠 있는 닫기 단추 밑으로 글이 지나가지 않게 */
+  mask-image: linear-gradient(transparent, #000 20px, #000 calc(100% - 20px), transparent); /* 위아래 끝에서 글이 칼같이 잘리지 않고 흐려진다 — 여백(36·44) 안이라 맨 위·맨 아래에선 글을 가리지 않는다 */
+  scrollbar-width: thin; scrollbar-color: color-mix(in srgb, var(--fg) 22%, transparent) transparent; }
+.detail-body:hover { scrollbar-color: color-mix(in srgb, var(--fg) 38%, transparent) transparent; }
+.main:has(dialog.detail[open]) { overflow: hidden; } /* 창이 열린 동안 뒤 목록은 멈춘다 */
+/* 읽은 만큼 띠 — 창 맨 위 잉크 한 줄. 스크롤에 묶인 CSS 애니메이션이라 스크립트가 없다(지원 안 하는 브라우저는 띠가 안 보일 뿐) */
+.d-progress { position: absolute; top: 0; left: 0; right: 0; z-index: 2; height: 3px; background: var(--fg); transform: scaleX(0); transform-origin: left; pointer-events: none; }
+/* 이름 붙인 타임라인 — 띠·닫기는 본문 밖(창의 자식)이라 timeline-scope 로 창에서 이름을 이어 준다(본문의 흐림 가림에 덮이지 않게) */
+@supports (animation-timeline: scroll()) { .detail-body { scroll-timeline: --d-read block; } .d-progress { animation: d-read linear both; animation-timeline: --d-read; } }
+@keyframes d-read { to { transform: scaleX(1); } }
+.detail .close { position: absolute; top: 16px; right: 16px; z-index: 2; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 0 0 4px var(--side); width: 44px; height: 44px; border: 0; border-radius: 50%; background: var(--hover); color: var(--fg); font-size: 20px; line-height: 0; cursor: pointer; }
+.d-main { flex: 999 1 560px; min-width: 0; max-width: 760px; }
+.d-badges { display: flex; flex-wrap: wrap; gap: 6px; }
+.d-tag { height: 24px; padding: 0 10px; border: 0; border-radius: 999px; background: var(--hover); color: var(--sub); font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+.d-tag:hover { color: var(--accent); }
+.d-main h2 { margin: 14px 0 10px; font-size: 32px; line-height: 1.3; letter-spacing: -0.025em; }
+.d-lede { margin: 0 0 28px; font-size: 18px; line-height: 1.7; color: var(--sub); }
+/* 쇼츠 카드 — 세로 영상(검은 면은 영상 칸만)과 개념 설명을 나란히. 둘레는 면접 꼬리 질문 카드(.quiz)와 같은 면 */
+.d-short { display: flex; align-items: center; gap: 24px; margin: 0 0 28px; padding: 16px; background: var(--main); border: 1px solid var(--line); border-radius: 14px; }
+.d-short-v { position: relative; flex: none; width: 200px; aspect-ratio: 9 / 16; overflow: hidden; border-radius: 10px; background: #000; }
+.d-short-v video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.d-short-play { position: absolute; inset: 0; display: grid; place-items: center; padding: 0; border: 0; background: transparent; color: #111; cursor: pointer; }
+/* 영상이 대부분 검은 면이라 단추는 밝은 원 — 어두운 원은 묻혀 삼각형만 떠 보였다 */
+.d-short-play span { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: rgb(255 255 255 / .92); box-shadow: 0 4px 16px rgb(0 0 0 / .35); transition: transform .15s; }
+.d-short-play:hover span, .d-short-play:focus-visible span { transform: scale(1.08); }
+.d-short-play:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.d-short-play svg { margin-left: 3px; } /* 삼각형은 오른쪽이 가벼워 보여 살짝 민다 */
+.d-short-t { flex: 1; min-width: 0; }
+.d-short-k { margin: 0; font-size: 13px; font-weight: 600; color: var(--muted); }
+.d-short-t h3 { margin: 4px 0 8px; font-size: 21px; line-height: 1.35; letter-spacing: -0.01em; }
+.d-short-why { margin: 0; font-size: 15px; line-height: 1.7; color: var(--sub); display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; }
+.d-short-act { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.d-short-act .btn { display: inline-flex; align-items: center; gap: 6px; }
+.d-sec h3 { margin: 28px 0 8px; font-size: 21px; letter-spacing: -0.01em; }
+.d-sec p { margin: 4px 0; }
+.d-sec ul { margin: 0; padding-left: 20px; }
+.d-sec li { margin: 2px 0; }
+ol.steps { list-style: none; margin: 4px 0; padding: 0; display: flex; flex-direction: column; gap: 12px; counter-reset: step; }
+/* li 를 flex 로 두면 굵은 글자·형광펜·글자 조각이 각각 칸이 되어 나란히 갈라진다 — 글자는 그냥 흐르게 두고 번호만 왼쪽 여백에 띄운다 */
+ol.steps li { position: relative; min-height: 30px; padding-left: 44px; counter-increment: step; }
+ol.steps li::before { content: counter(step); position: absolute; left: 0; top: -2px; width: 30px; height: 30px; border-radius: 8px; background: var(--hover); display: flex; align-items: center; justify-content: center; font: 600 14px var(--mono); }
+.d-quiz { margin-top: 40px; padding-top: 20px; border-top: 2px solid var(--fg); }
+.d-quiz-h { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; }
+.d-quiz-h h3 { margin: 0; font-size: 21px; }
+.d-quiz-h span { font-size: 14px; color: var(--muted); }
+.quiz { margin-top: 16px; padding: 18px 20px; background: var(--main); border: 1px solid var(--line); border-radius: 14px; }
+.quiz-h { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.quiz h4 { margin: 0; font-size: 17px; }
+/* 쇼츠가 없는 개념의 만들기 — 개념 이름 오른쪽 끝 */
+.mk-short { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.mk-short .btn { display: inline-flex; align-items: center; gap: 6px; }
+.mk-short-s { font-size: 13px; color: var(--muted); }
+.mk-short-s:empty { display: none; }
+.mk-short-s.is-fail { color: var(--bad); }
+.mk-dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: var(--accent); animation: mk-pulse 1s ease-in-out infinite alternate; }
+@keyframes mk-pulse { from { opacity: .3 } to { opacity: 1 } }
+@media (prefers-reduced-motion: reduce) { .mk-dot { animation: none; } }
+.quiz-why { margin: 8px 0 10px; font-size: 15px; color: var(--sub); }
+.quiz ol { margin: 0; padding-left: 22px; font-size: 15px; }
+.quiz li { margin: 6px 0; }
+.quiz summary { display: block; cursor: pointer; font-weight: 600; list-style: none; }
+.quiz summary::-webkit-details-marker { display: none; }
+.quiz summary svg { margin-right: 4px; color: var(--muted); }
+.quiz details[open] summary svg { transform: rotate(90deg); }
+.quiz details p { margin: 8px 0 4px; padding: 10px 14px; border-left: 3px solid var(--hl); background: var(--hl-soft); border-radius: 0 8px 8px 0; color: var(--sub); }
+.d-rail { flex: 1 1 240px; min-width: 0; display: flex; flex-direction: column; gap: 26px; font-size: 14px; line-height: 1.6; }
+.d-meta { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; }
+.d-meta dt { color: var(--muted); }
+.d-meta dd { margin: 0; }
+.d-link { border: 0; background: none; padding: 0; color: var(--accent); font: inherit; font-weight: 600; cursor: pointer; }
+.d-rail-sec h3 { margin: 0 0 10px; font-size: 12px; font-weight: 600; letter-spacing: .06em; color: var(--muted); }
+.d-concepts, .d-same { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 9px; }
+.d-concepts li { display: flex; justify-content: space-between; gap: 8px; }
+.d-concepts li span { color: var(--muted); }
+.d-same li { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.d-same button { border: 0; background: none; padding: 0; color: var(--fg); font: inherit; text-align: left; line-height: 1.5; cursor: pointer; }
+.d-same button:hover { color: var(--accent); }
+.d-steps { display: flex; justify-content: space-between; gap: 8px; padding-top: 14px; border-top: 1px solid var(--line); }
+.d-step { display: inline-flex; align-items: center; gap: 4px; height: 36px; padding: 0 12px; border: 0; border-radius: 8px; background: var(--hover); color: var(--fg); font: inherit; font-size: 13px; cursor: pointer; }
+.d-step:hover { color: var(--accent); }
+@media (max-width: 640px) {
+  .fright input { width: 100%; flex: 1 1 160px; }
+  .detail-body { max-height: calc(100vh - 110px); margin-top: 60px; padding: 8px 18px 32px; gap: 28px; } /* 휴대폰은 옆자리가 없어 닫기 단추를 위 60px 띠에 따로 둔다 */
+  .detail .close { top: 8px; right: 8px; }
+  .d-main h2 { font-size: 26px; }
+  .day-date { flex-basis: 100%; padding-top: 0; margin-bottom: 6px; position: static; }
+}
+
+/* 공통 조각 — 종류 라벨, 형광펜, 말풍선 */
+.b { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; color: var(--t, var(--muted)); background: color-mix(in srgb, var(--t, var(--muted)) 12%, var(--main)); }
+mark.cc, mark.cc-h { background: linear-gradient(var(--hl), var(--hl)) no-repeat left bottom / 100% 55%; color: inherit; padding: 0 2px; border-radius: 2px; }
+mark.cc { cursor: help; }
+mark.cc:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.tip { position: fixed; z-index: 10; max-width: min(400px, calc(100vw - 16px)); padding: 12px 14px; border-radius: 10px; background: var(--fg); color: var(--main); font-size: 13.5px; line-height: 1.6; pointer-events: none; box-shadow: var(--shadow); }
+.tip p { margin: 4px 0 0; }
+.tip small { display: block; margin-top: 8px; opacity: .7; }
+.ftag svg, .fchip svg, .d-step svg { vertical-align: -0.125em; }
+.side-item[aria-current="true"] .num { color: var(--sub); } /* 고른 칸 바탕(--active) 위에서도 4.5:1 */
+.side-item .num { margin-left: auto; color: var(--muted); }
+.item-meta { display: inline-flex; align-items: center; gap: 4px; }
+.d-concepts li { align-items: center; }
+.ctip { display: contents; }
+
+/* 주간 보고 */
+.report-bar { max-width: 760px; margin: 16px auto 0; display: flex; justify-content: flex-end; align-items: center; gap: 10px; }
+.report-bar .btn { display: inline-flex; align-items: center; gap: 6px; }
+.report { max-width: 760px; margin: 12px auto 0; background: var(--main); border: 1px solid var(--line); border-radius: 14px; padding: 24px 28px; }
+.report h2 { margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid var(--fg); font-size: 18px; letter-spacing: -0.01em; }
+.report p { margin: 16px 0 4px; }
+.report ul, .report ol { margin: 2px 0 8px; padding-left: 20px; color: var(--sub); }
+.report li.sub { margin-left: 18px; list-style-type: circle; font-size: 0.95em; color: var(--muted); }
+
+/* 주간 보고 만들기 — history/ReportMaker.tsx */
+.report-maker { max-width: 760px; margin: 16px auto; padding: 20px 24px; border: 1px solid var(--line); border-radius: 14px; background: var(--main); display: grid; gap: 14px; }
+.report-maker-head { display: flex; align-items: center; justify-content: space-between; }
+.report-maker-head h2 { margin: 0; font-size: 16px; font-weight: 600; }
+.report-maker-row { display: flex; align-items: flex-start; gap: 16px; }
+.report-maker-row > .muted { width: 64px; flex: none; line-height: 32px; }
+.report-maker-cats { display: flex; flex-wrap: wrap; gap: 6px; padding-top: 4px; }
+.report-maker-cats .chip.off { background: transparent; color: var(--muted); } /* 0건 — 흐리게 하면 글자가 안 읽혀 바탕만 뺀다 */
+.report-maker .small { margin: 0; font-size: 13px; }
+.report-maker-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.report-maker-actions .btn, .empty .btn { display: inline-flex; align-items: center; gap: 6px; }
+.report-maker-wait { display: flex; align-items: center; gap: 10px; margin: 0; color: var(--sub); }
+.report-maker .report { max-width: none; margin: 0; padding: 16px 0 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; }
+
+/* 주간 보고 사이드바 한 줄 — 이름 바꾸기 · 삭제 */
+.report-item { position: relative; }
+.report-item .side-item { padding-right: 64px; }
+.report-item-tools { position: absolute; right: 4px; top: 3px; display: none; gap: 2px; }
+.report-item:hover .report-item-tools, .report-item:focus-within .report-item-tools { display: flex; }
+.report-item-tools .icon-btn { width: 28px; height: 28px; }
+.report-item.editing { padding: 2px 0; }
+.report-item.editing .field { width: 100%; }
+.report-item.confirm { display: grid; gap: 6px; padding: 8px; border-radius: 8px; background: var(--hover); }
+.report-item.confirm .side-title { font-size: 13px; overflow-wrap: anywhere; }
+.report-item-actions { display: flex; justify-content: flex-end; gap: 6px; }
+.report-item .err.small { margin: 4px 8px 0; font-size: 12px; }
+.kref { color: var(--accent); text-decoration: underline; cursor: pointer; }
+
+.fchips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 13px; }

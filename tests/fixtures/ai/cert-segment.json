@@ -1,0 +1,6 @@
+{ "items": [
+  { "subject": "소프트웨어 설계", "title": "폭포수 모형", "freq": 3, "freqNote": "24.7, 23.2, 22.3", "page": 2, "anchor": "폭포수 모형은 이전 단계로 돌아갈 수 없다는" },
+  { "subject": "소프트웨어 설계", "title": "나선형 모형", "freq": 1, "freqNote": "24.2", "page": 2, "anchor": "나선형 모형은 폭포수 모형과 프로토타입" },
+  { "subject": "소프트웨어 개발", "title": "화이트박스 테스트", "freq": 2, "freqNote": "25.2, 24.7", "page": 3, "anchor": "화이트박스 테스트는 모듈의 원시 코드를" },
+  { "subject": "소프트웨어 개발", "title": "블랙박스 테스트", "freq": 0, "freqNote": "", "page": 3, "anchor": "블랙박스 테스트는 소프트웨어가 수행할" }
+] }

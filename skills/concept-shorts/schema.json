@@ -1,0 +1,444 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "title",
+    "question",
+    "beats"
+  ],
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 14,
+      "description": "화면 맨 위 개념 이름. 짧게"
+    },
+    "question": {
+      "type": "string",
+      "maxLength": 60,
+      "description": "엔딩에서 묻는 꼬리 질문(사전의 질문 중 하나)"
+    },
+    "beats": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 18,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "say",
+          "band",
+          "draw"
+        ],
+        "properties": {
+          "role": {
+            "enum": [
+              "problem",
+              "idea",
+              "example",
+              "twist",
+              "result",
+              "outro"
+            ]
+          },
+          "say": {
+            "type": "string",
+            "maxLength": 48,
+            "description": "읽는 대사 = 자막. 해요체 한 문장. 앞 박자와 이어지게(그런데·그래서·왜냐하면…)"
+          },
+          "speak": {
+            "type": "string",
+            "maxLength": 64,
+            "description": "읽는 소리만 다를 때(영어 약어 발음 등). 없으면 say 를 읽는다"
+          },
+          "band": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "tone",
+              "text"
+            ],
+            "properties": {
+              "tone": {
+                "enum": [
+                  "bad",
+                  "key",
+                  "good"
+                ]
+              },
+              "text": {
+                "type": "string",
+                "maxLength": 24
+              }
+            }
+          },
+          "draw": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 2,
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "type",
+                    "id",
+                    "text"
+                  ],
+                  "properties": {
+                    "type": {
+                      "const": "big"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string",
+                      "maxLength": 14
+                    },
+                    "sub": {
+                      "type": "string",
+                      "maxLength": 22
+                    },
+                    "tone": {
+                      "$ref": "#/$defs/tone"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "type",
+                    "id",
+                    "label",
+                    "value",
+                    "max",
+                    "unit"
+                  ],
+                  "properties": {
+                    "type": {
+                      "const": "gauge"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string",
+                      "maxLength": 12
+                    },
+                    "value": {
+                      "type": "number"
+                    },
+                    "max": {
+                      "type": "number"
+                    },
+                    "limit": {
+                      "type": "number"
+                    },
+                    "limitLabel": {
+                      "type": "string",
+                      "maxLength": 10
+                    },
+                    "unit": {
+                      "type": "string",
+                      "maxLength": 6
+                    },
+                    "tone": {
+                      "$ref": "#/$defs/tone"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "type",
+                    "id",
+                    "items"
+                  ],
+                  "properties": {
+                    "type": {
+                      "const": "cells"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string",
+                      "maxLength": 20
+                    },
+                    "items": {
+                      "type": "array",
+                      "minItems": 1,
+                      "maxItems": 12,
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "v"
+                        ],
+                        "properties": {
+                          "v": {
+                            "type": "string",
+                            "maxLength": 5
+                          },
+                          "tone": {
+                            "$ref": "#/$defs/tone"
+                          }
+                        }
+                      }
+                    },
+                    "focus": {
+                      "type": "array",
+                      "minItems": 2,
+                      "maxItems": 2,
+                      "items": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "type",
+                    "id",
+                    "nodes"
+                  ],
+                  "properties": {
+                    "type": {
+                      "const": "flow"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "dir": {
+                      "enum": [
+                        "row",
+                        "col"
+                      ]
+                    },
+                    "nodes": {
+                      "type": "array",
+                      "minItems": 2,
+                      "maxItems": 4,
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "label"
+                        ],
+                        "properties": {
+                          "label": {
+                            "type": "string",
+                            "maxLength": 8
+                          },
+                          "sub": {
+                            "type": "string",
+                            "maxLength": 12
+                          },
+                          "tone": {
+                            "$ref": "#/$defs/tone"
+                          }
+                        }
+                      }
+                    },
+                    "arrows": {
+                      "type": "array",
+                      "maxItems": 3,
+                      "items": {
+                        "type": "string",
+                        "maxLength": 8
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "type",
+                    "id",
+                    "before",
+                    "after"
+                  ],
+                  "properties": {
+                    "type": {
+                      "const": "compare"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "before": {
+                      "$ref": "#/$defs/card"
+                    },
+                    "after": {
+                      "$ref": "#/$defs/card"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "type",
+                    "id",
+                    "lines"
+                  ],
+                  "properties": {
+                    "type": {
+                      "const": "code"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "lines": {
+                      "type": "array",
+                      "minItems": 1,
+                      "maxItems": 6,
+                      "items": {
+                        "type": "string",
+                        "maxLength": 30
+                      }
+                    },
+                    "mark": {
+                      "type": "array",
+                      "maxItems": 3,
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "line",
+                          "text"
+                        ],
+                        "properties": {
+                          "line": {
+                            "type": "integer",
+                            "minimum": 0
+                          },
+                          "text": {
+                            "type": "string"
+                          },
+                          "tone": {
+                            "$ref": "#/$defs/tone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "type",
+                    "id",
+                    "items"
+                  ],
+                  "properties": {
+                    "type": {
+                      "const": "list"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "items": {
+                      "type": "array",
+                      "minItems": 1,
+                      "maxItems": 5,
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "text"
+                        ],
+                        "properties": {
+                          "text": {
+                            "type": "string",
+                            "maxLength": 20
+                          },
+                          "tone": {
+                            "$ref": "#/$defs/tone"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "follow": {
+      "type": "array",
+      "maxItems": 2,
+      "description": "후속 영상 — 60초에 못 담는 선행 지식·심화 개념(0~2개, 없으면 빈 배열). script-rules.md '후속 영상'",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "kind",
+          "why"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 20,
+            "description": "사전에 있는 이름이면 그대로, 없으면 짧은 새 이름"
+          },
+          "kind": {
+            "enum": [
+              "선행",
+              "심화"
+            ]
+          },
+          "why": {
+            "type": "string",
+            "maxLength": 60,
+            "description": "왜 이 영상 다음에 봐야 하는지 한 줄"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "tone": {
+      "enum": [
+        "plain",
+        "key",
+        "bad",
+        "good",
+        "dim",
+        "c1",
+        "c2",
+        "c3",
+        "c4"
+      ]
+    },
+    "card": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "label",
+        "value"
+      ],
+      "properties": {
+        "label": {
+          "type": "string",
+          "maxLength": 10
+        },
+        "value": {
+          "type": "string",
+          "maxLength": 10
+        }
+      }
+    }
+  }
+}

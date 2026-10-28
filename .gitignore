@@ -1,0 +1,17 @@
+node_modules/
+out/
+dist/
+*.log
+.DS_Store
+.env*
+.vscode/
+.idea/
+
+# 평가 결과
+eval/out/
+
+# 설치 파일을 만들 때 skills/ 를 복사해 넣는 곳(skills:bundle)
+build/skills/
+
+# 공개용 스킬 규칙 — 로컬 전용
+scripts/public-skills.rules.local.mjs

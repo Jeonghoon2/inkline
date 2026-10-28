@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "type": "module",
+  "description": "쇼츠 렌더 전용 의존성 — 타임라인 페이지는 외부 패키지 없이 돈다",
+  "dependencies": {
+    "@remotion/bundler": "4.0.535",
+    "@remotion/renderer": "4.0.535",
+    "gsap": "3.14.2",
+    "hyperframes": "0.8.153",
+    "playwright": "1.47.2",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "remotion": "4.0.535"
+  }
+}

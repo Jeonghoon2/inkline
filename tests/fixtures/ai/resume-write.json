@@ -1,0 +1,1 @@
+{ "changes": [{ "kind": "add", "where": "기술", "before": "", "after": "- 학습 앱: Electron 데스크톱 학습 앱", "anchor": "## 기술", "why": "확인용 가짜 제안", "shipped": true, "evidence": [] }] }

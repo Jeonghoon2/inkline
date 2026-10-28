@@ -1,0 +1,5 @@
+{ "groups": [
+  { "title": "결제 개편", "sections": [
+    { "category": "Inkline", "items": [{ "text": "코테 연습 앱 개발", "start": "2026-10-18", "end": "2026-10-19" }] }
+  ] }
+] }

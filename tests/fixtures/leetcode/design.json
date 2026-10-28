@@ -1,0 +1,12 @@
+{
+  "questionFrontendId": "146",
+  "title": "LRU Cache",
+  "titleSlug": "lru-cache",
+  "difficulty": "Medium",
+  "isPaidOnly": false,
+  "content": "<p>Design.</p>",
+  "topicTags": [{ "name": "Design" }],
+  "codeSnippets": [],
+  "exampleTestcaseList": [],
+  "metaData": "{\"classname\": \"LRUCache\", \"constructor\": {\"params\": []}, \"methods\": []}"
+}

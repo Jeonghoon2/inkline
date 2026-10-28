@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>쇼츠 재생기</title>
+<!-- 개념 쇼츠 한 편을 시각 t 의 장면으로 그린다. shorts.mjs 가 load(대본, 박자 시각)를 부르고 __seek(t) 로 프레임마다 찍는다 -->
+<link rel="stylesheet" href="overlay.css">
+<script src="overlay.js"></script>
+<style>
+  #draw { position: absolute; top: 420px; left: 60px; right: 60px; height: 920px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 60px; }
+  .item { display: flex; flex-direction: column; align-items: center; }
+  .big { font-size: 170px; font-weight: 800; letter-spacing: -3px; line-height: 1.1; }
+  .big-sub { margin-top: 24px; font-size: 52px; font-weight: 700; color: var(--muted); }
+  .g { width: 900px; }
+  .g-head { display: flex; justify-content: space-between; font-size: 50px; font-weight: 700; margin-bottom: 22px; }
+  .g-track { position: relative; height: 84px; border-radius: 14px; background: #1c1c20; }
+  .g-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 14px; }
+  .g-limit { position: absolute; top: -22px; bottom: -22px; width: 6px; margin-left: -3px; background: var(--fg); }
+  .g-limit span { position: absolute; top: 132px; left: 50%; font-size: 36px; color: var(--muted); white-space: nowrap; } /* 가로 위치는 JS — 한계선이 오른쪽에 있으면 글자도 왼쪽으로 끌어 막대 안에 둔다 */
+  .lbl { font-size: 44px; font-weight: 700; color: var(--muted); margin-bottom: 30px; }
+  .cells { position: relative; }
+  .cell { position: absolute; display: flex; align-items: center; justify-content: center; padding: 6px; text-align: center; border: 4px solid #55555c; border-radius: 12px; font-weight: 800; box-sizing: border-box; }
+  .focus { position: absolute; border: 8px solid var(--key); border-radius: 16px; box-sizing: border-box; }
+  /* 흐름 — 가로: 상자가 남은 폭을 나눠 갖고 화살표 칸은 제 글자만큼(80~180px) 넓어진다. 세로: 화살표 글자는 ↓ 오른쪽에. 화살표 글자가 상자 테두리 위로 넘쳤다(2026-10-13) */
+  .flow { display: flex; align-items: stretch; width: 960px; }
+  .flow.col { flex-direction: column; align-items: center; width: auto; }
+  .node { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 18px 20px; border: 5px solid; border-radius: 22px; box-sizing: border-box; font-weight: 800; line-height: 1.2; }
+  .flow.col .node { flex: none; }
+  .node small { font-weight: 700; color: var(--muted); margin-top: 6px; line-height: 1.2; }
+  .arrow { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); font-weight: 700; }
+  .arrow i { font-style: normal; font-size: 64px; line-height: 1; color: var(--fg); }
+  .arrow span { font-size: 36px; line-height: 1.2; text-align: center; margin-top: 6px; }
+  .flow .arrow { flex: none; min-width: 80px; max-width: 180px; padding: 0 16px; box-sizing: border-box; }
+  .flow.col .arrow { position: relative; min-width: 0; max-width: none; height: 110px; padding: 0; }
+  .flow.col .arrow span { position: absolute; left: calc(50% + 48px); top: 50%; transform: translateY(-50%); margin: 0; white-space: nowrap; text-align: left; }
+  .cmp { display: flex; align-items: center; gap: 36px; }
+  .card { width: 380px; padding: 40px 24px; box-sizing: border-box; border: 5px solid; border-radius: 26px; text-align: center; }
+  .card span { display: block; font-size: 42px; font-weight: 700; color: var(--muted); }
+  .card b { display: block; margin-top: 14px; font-size: 92px; letter-spacing: -2px; }
+  .code { width: 900px; padding: 34px 40px; box-sizing: border-box; border-radius: 22px; background: #121216; border: 3px solid #2c2c33;
+    font: 600 44px/1.6 "SF Mono", Menlo, Consolas, monospace; white-space: pre; overflow: hidden; } /* Consolas 는 Windows 용 — 맥은 Menlo 까지에서 정해진다 */
+  .code mark { border-radius: 8px; padding: 0 4px; color: #000; }
+  .list { width: 880px; display: flex; flex-direction: column; gap: 30px; }
+  .list div { display: flex; align-items: center; gap: 28px; font-size: 62px; font-weight: 700; }
+  .list div::before { content: ''; flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--dot); }
+  #draw { transform-origin: 50% 50%; }
+  #draw-prev { position: absolute; top: 420px; left: 60px; right: 60px; height: 920px; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 60px; pointer-events: none; }
+  .bar { height: 14px; margin: 18px 30px 0; border-radius: 7px; background: #1c1c20; overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: 7px; }
+  .caret { display: inline-block; width: .55em; height: 1em; margin-left: 2px; vertical-align: -0.12em; background: var(--key); }
+  .arrow i { display: inline-block; }
+</style>
+</head>
+<body>
+<div id="stage"><div id="title"></div><div id="band"></div><div id="draw-prev" aria-hidden="true"></div><div id="draw"></div><div id="sub"></div><div id="brand">My History · 60초 개념</div><div id="end" hidden></div></div>
+<script>
+const { FADE, TAIL, GAP, C, esc, clamp, ease, textW, fit } = ShortsText // 공용 계산·글자 맞춤은 overlay.js(Remotion 조립과 같이 쓴다)
+const lerp = (a, b, p) => a + (b - a) * p
+const $ = id => document.getElementById(id)
+const mix = (from, to, p) => p >= 1 || !from || from === to ? C(to) : `color-mix(in srgb, ${C(from)} ${Math.round((1 - p) * 100)}%, ${C(to)})` // 색을 부드럽게 넘긴다
+let S = null, starts = [], total = 0, durs = []
+
+// 박자 안 시간 — U: 박자 시작부터 초, DUR: 그 박자 대사 길이. 한 박자에 새로 더한 것은 대사에 맞춰 차례로 나온다
+let U = 0, DUR = 1
+const appear = (k, n, len = 0.4) => ease(clamp((U - (n > 1 ? 0.75 * DUR * k / n : 0)) / len)) // n개 중 k번째(0부터)
+const glow = (tone, p) => ['key', 'bad', 'good'].includes(tone) && p > 0 && p < 1 ? `box-shadow:0 0 ${Math.round(48 * Math.sin(Math.PI * p))}px ${C(tone)};` : '' // 새로 강조되면 한 번 빛난다
+
+// 숫자 세기 — text 속 숫자를 앞 text 의 같은 자리 숫자에서 세어 바꾼다. 숫자 밖 글자가 다르면 null(그냥 바꿔 넣는다)
+const NUM = /\d[\d,]*(?:\.\d+)?/g
+const fmtLike = (v, like) => {
+  const d = (like.split('.')[1] ?? '').length
+  return like.includes(',') ? v.toLocaleString('ko-KR', { minimumFractionDigits: d, maximumFractionDigits: d }) : d ? v.toFixed(d) : String(Math.round(v))
+}
+function countText(from, to, p) {
+  if (p >= 1) return to
+  const fa = from.match(NUM) ?? [], ta = to.match(NUM) ?? []
+  if (!ta.length || fa.length !== ta.length || from.replace(NUM, '#') !== to.replace(NUM, '#')) return null
+  let k = 0
+  return to.replace(NUM, m => fmtLike(lerp(+fa[k].replace(/,/g, ''), +ta[k++].replace(/,/g, ''), p), m))
+}
+const isAmount = t => /^[^\d]{0,6}\d[\d,.]*\s?[A-Za-z%가-힣]{0,4}$/.test(t) // '540MB'·'32만'·'exit 137' 처럼 숫자 하나가 주인공
+const fmt = (v, like) => { const d = (String(like).split('.')[1] ?? '').length; return d ? v.toFixed(d) : Math.round(v).toLocaleString('ko-KR') }
+
+// 그림 부품 — a: 앞 박자의 같은 id 그림(없으면 새로 나타남), b: 지금 그림, p: 0→1 박자 전환 정도
+const PARTS = {
+  big(a, b, p) {
+    const counted = a && a.text !== b.text ? countText(a.text, b.text, p) : null
+    const fresh = !a || (a.text !== b.text && counted == null)
+    let text = counted ?? b.text
+    if (fresh && isAmount(b.text)) text = countText(b.text.replace(/\d/g, '0'), b.text, ease(clamp(U / 0.8))) ?? b.text // 처음 나오는 숫자는 0에서 세어 올라간다
+    const scale = fresh ? 0.85 + 0.15 * p : counted != null ? 1 + 0.06 * Math.sin(Math.PI * p) : 1
+    return `<div class="big" style="color:${mix(a?.tone, b.tone, p)};opacity:${fresh ? p : 1};transform:scale(${scale})">${esc(text)}</div>` +
+      (b.sub ? `<div class="big-sub" style="opacity:${!a || a.sub !== b.sub ? appear(1, 2) : 1}">${esc(b.sub)}</div>` : '')
+  },
+  gauge(a, b, p) {
+    const v = lerp(a ? a.value : 0, b.value, a ? p : ease(clamp(U / 0.9))), over = b.limit != null && v > b.limit
+    const crossed = over && !(a && a.limit != null && a.value > a.limit) // 이번 박자에 한계를 넘었다
+    const shake = crossed ? Math.sin(U * 50) * 14 * clamp(1 - Math.max(0, U - 0.5) / 0.7) * (U > 0.4 ? 1 : 0) : 0
+    const color = over ? 'var(--bad)' : C(b.tone ?? 'c1')
+    return `<div class="g" style="transform:translateX(${shake.toFixed(1)}px);${b.limit != null ? 'padding-bottom:80px' : ''}">` + // 한계 글자는 막대 아래에 매달려 있어 그만큼 자리를 잡는다(아래 그림에 닿았다)
+      `<div class="g-head"><span>${esc(b.label)}</span><b style="color:${color}">${fmt(v, b.value)} ${esc(b.unit)}</b></div>` +
+      `<div class="g-track"><div class="g-fill" style="width:${clamp(v / b.max) * 100}%;background:${color};${crossed ? glow('bad', clamp((U - 0.4) / 0.8)) : ''}"></div>` +
+      (b.limit != null ? `<div class="g-limit" style="left:${clamp(b.limit / b.max) * 100}%"><span style="transform:translateX(-${(clamp(b.limit / b.max) * 100).toFixed(1)}%)">${esc(b.limitLabel ?? '한계')} ${fmt(b.limit, b.limit)}${esc(b.unit)}</span></div>` : '') + '</div></div>'
+  },
+  cells(a, b, p) {
+    const n = b.items.length, rows = n > 8 ? 2 : 1, per = Math.ceil(n / rows), gap = 16
+    const box = Math.min(150, Math.floor((960 - (per - 1) * gap) / per)), w = per * box + (per - 1) * gap
+    const pos = i => [(i % per) * (box + gap), Math.floor(i / per) * (box + gap)]
+    const first = a ? a.items.length : 0, m = Math.max(0, n - first)
+    let html = b.items.map((it, i) => {
+      const old = a?.items[i], [x, y] = pos(i)
+      const q = old ? 1 : appear(i - first, m) // 새 칸은 차례로 튀어나온다
+      const vq = old && old.v !== it.v ? p : 1
+      const v = old && old.v !== it.v ? (countText(old.v, it.v, p) ?? it.v) : it.v
+      const tq = old && old.tone !== it.tone ? p : 1
+      const strong = it.tone && it.tone !== 'plain' && it.tone !== 'dim'
+      return `<div class="cell" style="left:${x}px;top:${y}px;width:${box}px;height:${box}px;font-size:${fit(v, box - 16, box * 0.4)}px;line-height:1.1;color:${mix(old?.tone, it.tone, tq)};` +
+        `border-color:${strong ? mix(old?.tone, it.tone, tq) : '#55555c'};opacity:${(it.tone === 'dim' ? lerp(old?.tone === 'dim' ? 0.35 : 1, 0.35, tq) : 1) * q * (vq < 1 ? 0.4 + 0.6 * vq : 1)};` +
+        `transform:scale(${0.6 + 0.4 * q});${old && old.tone !== it.tone ? glow(it.tone, p) : ''}">${esc(v)}</div>`
+    }).join('')
+    if (b.focus) {
+      // 강조 테두리 — 두 줄에 걸치면 그 줄들의 칸 전체를 감싼다(한 줄로만 재서 테두리가 화면 밖으로 나갔다)
+      const f0 = a?.focus ?? b.focus, s = lerp(f0[0], b.focus[0], p), e = lerp(f0[1], b.focus[1], p)
+      const r0 = Math.floor(Math.round(s) / per), r1 = Math.floor(Math.round(e) / per), one = r0 === r1
+      const x0 = one ? (s % per) * (box + gap) : 0, x1 = one ? (e % per) * (box + gap) + box : per * box + (per - 1) * gap
+      html += `<div class="focus" style="left:${x0 - 12}px;top:${r0 * (box + gap) - 12}px;width:${x1 - x0 + 24}px;height:${(r1 - r0) * (box + gap) + box + 24}px;opacity:${a?.focus ? 1 : appear(m, m + 1)}"></div>`
+    }
+    return (b.label ? `<div class="lbl">${esc(b.label)}</div>` : '') + `<div class="cells" style="width:${w}px;height:${rows * box + (rows - 1) * gap}px">${html}</div>`
+  },
+  flow(a, b, p) {
+    const col = b.dir === 'col' || b.nodes.length > 3, n = b.nodes.length, had = a ? a.nodes.length : 0
+    // 상자 안 폭 어림 — 가로는 화살표 칸(글자 폭 + 32, 80~180)을 뺀 나머지를 나눈다. 상자 테두리·안쪽 여백 50px
+    const aw = i => Math.max(80, Math.min(180, Math.max(...String(b.arrows?.[i] ?? '').split(' ').map(textW)) * 36 + 32))
+    const inner = col ? 720 - 50 : (960 - b.nodes.slice(1).reduce((w, _, i) => w + aw(i), 0)) / n - 50
+    const nh = col ? 150 : 270, base = col ? 58 : 56 // 휴대폰에서 보조 글자가 10pt 아래로 내려가지 않게
+    // 새 상자와 화살표를 상자 → 화살표 → 상자 순서로 차례를 매긴다(화살표가 그려진 뒤 다음 상자)
+    const seq = []
+    b.nodes.forEach((_, i) => { if (i >= had) seq.push('n' + i); if (i < n - 1 && i + 1 >= had) seq.push('a' + i) })
+    const q = key => seq.includes(key) ? appear(seq.indexOf(key), seq.length) : 1
+    const parts = b.nodes.map((nd, i) => {
+      const o = q('n' + i), old = a?.nodes[i], tq = old && old.tone !== nd.tone ? p : 1
+      const fs = fit(nd.label, inner, base, 40), ss = Math.max(30, fit(nd.sub, inner, 36)) // 가장 긴 낱말이 상자 안에 — 그래도 길면 낱말 중간에서 줄을 바꾼다. 휴대폰 10pt(30px) 아래로는 줄이지 않는다
+      const node = `<div class="node" style="${col ? 'width:720px;' : ''}min-height:${nh}px;font-size:${fs}px;border-color:${mix(old?.tone ?? 'dim', nd.tone ?? 'dim', tq)};color:${mix(old?.tone, nd.tone, tq)};` +
+        `opacity:${o};transform:translateY(${(24 * (1 - o)).toFixed(1)}px);${old && old.tone !== nd.tone ? glow(nd.tone, p) : ''}">${esc(nd.label)}${nd.sub ? `<small style="font-size:${ss}px">${esc(nd.sub)}</small>` : ''}</div>`
+      const aq = q('a' + i)
+      const arrow = i < n - 1 ? `<div class="arrow"><i style="transform:${col ? `scaleY(${aq})` : `scaleX(${aq})`};transform-origin:${col ? 'top' : 'left'}">${col ? '↓' : '→'}</i>${b.arrows?.[i] ? `<span style="opacity:${aq}">${esc(b.arrows[i])}</span>` : ''}</div>` : ''
+      return node + arrow
+    })
+    return `<div class="flow${col ? ' col' : ''}">${parts.join('')}</div>`
+  },
+  compare(a, b, p) {
+    const q0 = a ? 1 : appear(0, 3), qa = a ? 1 : appear(1, 3), q1 = a ? 1 : appear(2, 3)
+    const nb = parseFloat((b.before.value.match(NUM) ?? [''])[0].replace(/,/g, '')), na = parseFloat((b.after.value.match(NUM) ?? [''])[0].replace(/,/g, ''))
+    const same = b.before.value.replace(NUM, '#') === b.after.value.replace(NUM, '#') && nb > 0 && na >= 0 // 같은 단위의 숫자면 길이 비례 막대
+    const max = Math.max(nb, na)
+    const after = same ? (countText(b.before.value, b.after.value, q1) ?? b.after.value) : b.after.value
+    const bar = (w, tone) => same ? `<div class="bar"><i style="width:${(w * 100).toFixed(1)}%;background:${C(tone)}"></i></div>` : ''
+    const card = (label, value, tone, o, w) => `<div class="card" style="border-color:${C(tone)};opacity:${o};transform:translateY(${(30 * (1 - o)).toFixed(1)}px)"><span>${esc(label)}</span><b style="color:${C(tone)};font-size:${fit(value, 330, 92)}px">${esc(value)}</b>${bar(w, tone)}</div>`
+    return `<div class="cmp">${card(b.before.label, b.before.value, 'bad', q0, (nb / max) * q0)}<div class="arrow"><i style="transform:scaleX(${qa});transform-origin:left">→</i></div>` +
+      `${card(b.after.label, after, 'good', q1, lerp(nb, na, q1) / max)}</div>`
+  },
+  code(a, b, p) {
+    const fresh = b.lines.map((l, i) => !a || i >= a.lines.length || a.lines[i] !== l)
+    const order = fresh.map((f, i) => f ? i : -1).filter(i => i >= 0)
+    const lines = b.lines.map((l, i) => {
+      const k = order.indexOf(i)
+      const typed = k < 0 ? 1 : clamp((U - (order.length > 1 ? 0.75 * DUR * k / order.length : 0)) / Math.max(0.5, l.length * 0.035)) // 타자 치듯
+      if (typed < 1) return `<div>${esc(l.slice(0, Math.round(l.length * typed)))}<span class="caret"></span></div>`
+      let h = esc(l)
+      for (const m of (b.mark ?? []).filter(m => m.line === i)) h = h.replace(esc(m.text), `<mark style="background:${C(m.tone ?? 'key')}">${esc(m.text)}</mark>`)
+      return `<div>${h || ' '}</div>`
+    })
+    return `<div class="code">${lines.join('')}</div>`
+  },
+  list(a, b, p) {
+    const first = a ? a.items.length : 0, m = Math.max(0, b.items.length - first)
+    return `<div class="list">${b.items.map((it, i) => {
+      const old = a?.items[i], q = old ? 1 : appear(i - first, m), tq = old && old.tone !== it.tone ? p : 1
+      return `<div style="--dot:${mix(old?.tone ?? 'key', it.tone ?? 'key', tq)};color:${it.tone === 'dim' ? 'var(--dim)' : 'var(--fg)'};opacity:${q};transform:translateX(${(-36 * (1 - q)).toFixed(1)}px)">${esc(it.text)}</div>`
+    }).join('')}</div>`
+  }
+}
+
+function render(t) {
+  const at = ShortsText.beatAt(S, starts, durs, total, t), { i, b, prev } = at
+  U = at.U; DUR = at.DUR
+  const L = ShortsText.layers(S, starts, durs, total, t) // 글자 층 — overlay.js
+  $('title').textContent = L.title.text
+  $('title').style.fontSize = `${L.title.size}px`
+  $('title').style.opacity = L.title.opacity
+  $('band').innerHTML = L.band
+  // 앞 박자에만 있던 그림은 0.2초(HOLD) 동안 흐려지며 사라진다 — 바로 지우면 새 그림이 나오기 전 그림 칸이 잠깐 비었다
+  // 그동안은 앞 박자 배치를 그대로 두고, 다 사라진 뒤에 새 배치로 바꾼다. 새 그림을 같이 내거나 남는 그림을 먼저 옮기면 사라지는 글자 위에 겹쳐 찍혔다(2026-10-13)
+  const leaving = prev ? prev.draw.filter(d => !b.draw.some(x => x.id === d.id && x.type === d.type)) : []
+  const HOLD = leaving.length ? 0.2 : 0, U0 = U, D0 = DUR
+  $('draw-prev').innerHTML = ''
+  if (U0 < HOLD) {
+    U = 99; DUR = 1 // 앞 박자는 다 나온 모습으로
+    $('draw').innerHTML = prev.draw.map(d => `<div class="item" style="opacity:${leaving.includes(d) ? clamp(1 - U0 / HOLD).toFixed(3) : 1}">${PARTS[d.type](d, d, 1)}</div>`).join('')
+  } else {
+    U = U0 - HOLD
+    const pd = ease(clamp(U / FADE))
+    $('draw').innerHTML = b.draw.map(d => {
+      // 같은 id 그림이 중간에 다른 그림을 거쳐 다시 나와도, 마지막으로 나왔던 모습에서 이어서 바뀐다
+      let a = null
+      for (let j = i - 1; j >= 0 && !a; j--) a = S.beats[j].draw.find(x => x.id === d.id && x.type === d.type) ?? null
+      const pp = a && JSON.stringify(a) === JSON.stringify(d) ? 1 : pd
+      const wait = HOLD && !prev.draw.some(x => x.id === d.id && x.type === d.type) ? `opacity:${clamp(U / 0.15).toFixed(3)}` : '' // 바로 앞 박자에 없던 그림은 짧게 떠오른다(몇 박자 전 그림이 다시 나올 때도)
+      return `<div class="item" style="${wait}">${PARTS[d.type](a, d, pp)}</div>`
+    }).join('')
+  }
+  U = U0; DUR = D0
+  $('draw').style.transform = `scale(${(1 + 0.025 * ease(clamp(U / Math.max(DUR, 1)))).toFixed(4)})` // 박자마다 아주 천천히 다가간다
+  $('sub').innerHTML = L.sub.html
+  $('sub').style.opacity = L.sub.opacity
+  const end = $('end')
+  end.hidden = !L.end
+  if (L.end) { end.style.opacity = L.end.opacity; end.innerHTML = L.end.html }
+}
+
+// 대본과 박자 시작 시각(초)·전체 길이(끝 화면 포함)·박자별 대사 길이(초)를 받는다
+window.load = (script, beatStarts, length, beatDurs = []) => { S = script; starts = beatStarts; total = length; durs = beatDurs; render(0); return document.fonts.ready.then(() => true) }
+window.__seek = t => render(t)
+window.TAIL = TAIL
+</script>
+</body>
+</html>

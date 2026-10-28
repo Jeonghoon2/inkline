@@ -1,0 +1,252 @@
+/* 색 · 글꼴 토큰의 원본. 테마 목록은 shared/themes.ts — 테마마다 아래에 [data-theme='<id>'] 묶음 하나 — <html> 에도, 설정의 색 견본처럼 안쪽 요소에도 쓴다.
+   App 의 applyTheme 이 data-theme 을 채우기 전(첫 그림)에는 :root(밝게)나 시스템이 어두우면 '어둡게' 값을 쓴다 — 어둡게는 두 곳에 똑같이 넣는다.
+   본문 · 흐린 글자 · 강조 · 종류 색의 바탕 대비는 tests/themes.test.ts 가 확인한다 */
+:root,
+[data-theme='light'] {
+  --rail: #f3f3f3;
+  --side: #fafafa;
+  --main: #ffffff;
+  --fg: #1a1a1a;
+  --sub: #4a4a4a;
+  --muted: #6e6e6e; /* 흰 바탕 4.5:1 이상 */
+  --line: #e6e6e6;
+  --field-line: #8c8c8c; /* 입력 칸 · 단추 · 칩 테두리 — --main · --side 대비 3 넘게 */
+  --hover: #ececec;
+  --active: #e3e3e3;
+  --primary: #111111; /* 주 단추 면 */
+  --on-primary: #ffffff;
+  --ok: #1a7f37;
+  --bad: #c62828;
+  --hl: #ffe066; /* 기록 본문의 형광펜 */
+  --accent: #2c56c9;
+  --hl-soft: #fbf7e3;
+  --t-feat: #2c56c9; --t-fix: #a64f0c; --t-perf: #1d7046; --t-ship: #7239b3; --t-doc: #0d6676; --t-trouble: #b8322a; --t-etc: #63625d;
+  --heat0: #ebe9e2; --heat1: #c9c6bb; --heat2: #9b988d; --heat3: #5d5b54; --heat4: #17171b;
+  --shadow: 0 6px 24px rgb(0 0 0 / 0.06);
+  --sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Apple SD Gothic Neo', 'Segoe UI', 'Malgun Gothic', sans-serif; /* 뒤 둘은 Windows */
+  --mono: 'SF Mono', ui-monospace, Menlo, 'Cascadia Mono', Consolas, 'D2Coding', monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --rail: #181818;
+    --side: #1c1c1c;
+    --main: #212121;
+    --fg: #ececec;
+    --sub: #c4c4c4;
+    --muted: #9a9a9a;
+    --line: #333333;
+    --field-line: #6d6d6d;
+    --hover: #2a2a2a;
+    --active: #333333;
+    --primary: #ececec;
+    --on-primary: #111111;
+    --ok: #4ac26b;
+    --bad: #ff6b6b;
+    --hl: rgb(255 224 102 / 0.35);
+    --accent: #8fa8f5;
+    --hl-soft: rgb(250 204 21 / 0.1);
+    --t-feat: #8fa8f5; --t-fix: #f0a35e; --t-perf: #6fcf97; --t-ship: #c39af0; --t-doc: #6fc6d6; --t-trouble: #f08a80; --t-etc: #9a998f;
+    --heat0: #26262c; --heat1: #45453f; --heat2: #77756b; --heat3: #b3b0a4; --heat4: #ecebe6;
+    --shadow: 0 6px 24px rgb(0 0 0 / 0.4);
+    color-scheme: dark;
+  }
+}
+[data-theme='dark'] {
+  --rail: #181818;
+  --side: #1c1c1c;
+  --main: #212121;
+  --fg: #ececec;
+  --sub: #c4c4c4;
+  --muted: #9a9a9a;
+  --line: #333333;
+  --field-line: #6d6d6d;
+  --hover: #2a2a2a;
+  --active: #333333;
+  --primary: #ececec;
+  --on-primary: #111111;
+  --ok: #4ac26b;
+  --bad: #ff6b6b;
+  --hl: rgb(255 224 102 / 0.35);
+  --accent: #8fa8f5;
+  --hl-soft: rgb(250 204 21 / 0.1);
+  --t-feat: #8fa8f5; --t-fix: #f0a35e; --t-perf: #6fcf97; --t-ship: #c39af0; --t-doc: #6fc6d6; --t-trouble: #f08a80; --t-etc: #9a998f;
+  --heat0: #26262c; --heat1: #45453f; --heat2: #77756b; --heat3: #b3b0a4; --heat4: #ecebe6;
+  --shadow: 0 6px 24px rgb(0 0 0 / 0.4);
+  color-scheme: dark;
+}
+
+/* 종이 — 따뜻한 미색 노트 + 갈색 잉크. Inkline 아이콘의 종이 · 형광펜 · 파란 점 */
+[data-theme='paper'] {
+  --rail: #ece5d6;
+  --side: #f3eee2;
+  --main: #faf7f0;
+  --fg: #2b2620;
+  --sub: #4d463c;
+  --muted: #6b6256;
+  --line: #e2dacb;
+  --field-line: #8b8276;
+  --hover: #ebe4d5;
+  --active: #e2d9c7;
+  --primary: #2b2620;
+  --on-primary: #faf7f0;
+  --ok: #2f7a3b;
+  --bad: #b3261e;
+  --hl: #ffe066;
+  --accent: #2c56c9;
+  --hl-soft: #f6edc8;
+  --t-feat: #2c56c9; --t-fix: #9a4a10; --t-perf: #2e6b3f; --t-ship: #74399f; --t-doc: #136672; --t-trouble: #ad372b; --t-etc: #675e52;
+  --heat0: #e9e2d2; --heat1: #cfc5b0; --heat2: #a1957d; --heat3: #615746; --heat4: #2b2620;
+  --shadow: 0 6px 24px rgb(60 40 10 / 0.08);
+  color-scheme: light;
+}
+
+/* Solarized Light — Ethan Schoonover 팔레트(base3 바탕). 본문은 대비를 위해 base02 */
+[data-theme='solarized-light'] {
+  --rail: #e8e1ca;
+  --side: #eee8d5;
+  --main: #fdf6e3;
+  --fg: #073642;
+  --sub: #2f4b53;
+  --muted: #536870;
+  --line: #e0d9c1;
+  --field-line: #758383;
+  --hover: #ebe4cd;
+  --active: #e3dcc3;
+  --primary: #073642;
+  --on-primary: #fdf6e3;
+  --ok: #5a6a00;
+  --bad: #c0282a;
+  --hl: #f3df8c;
+  --accent: #1c6aa6;
+  --hl-soft: #f5ebc6;
+  --t-feat: #1c6aa6; --t-fix: #b03f10; --t-perf: #5a6a00; --t-ship: #5a5fb0; --t-doc: #166b64; --t-trouble: #c0282a; --t-etc: #536870;
+  --heat0: #eee8d5; --heat1: #d9cfae; --heat2: #a89f86; --heat3: #586e75; --heat4: #073642;
+  --shadow: 0 6px 24px rgb(7 54 66 / 0.08);
+  color-scheme: light;
+}
+
+/* 하늘 — 푸른빛 회색 바탕, 깔끔한 쿨톤 */
+[data-theme='sky'] {
+  --rail: #e5eaf1;
+  --side: #eef2f7;
+  --main: #f8fafc;
+  --fg: #16202c;
+  --sub: #3a4656;
+  --muted: #586577;
+  --line: #dae1ea;
+  --field-line: #7b8696;
+  --hover: #e3e9f1;
+  --active: #d7dfea;
+  --primary: #1b3a6b;
+  --on-primary: #f8fafc;
+  --ok: #1a7f37;
+  --bad: #c22b2b;
+  --hl: #ffe066;
+  --accent: #1d5ccc;
+  --hl-soft: #fbf4d6;
+  --t-feat: #1d5ccc; --t-fix: #a14c0e; --t-perf: #1c6e45; --t-ship: #6c38b0; --t-doc: #0c6577; --t-trouble: #b5302a; --t-etc: #586577;
+  --heat0: #e2e8ef; --heat1: #c2ccd9; --heat2: #8b99ad; --heat3: #4c5a6d; --heat4: #16202c;
+  --shadow: 0 6px 24px rgb(20 40 70 / 0.08);
+  color-scheme: light;
+}
+
+/* 먹 — 거의 순수한 검정 + 노란 형광펜. 아이콘의 짙은 타일 그대로 */
+[data-theme='ink'] {
+  --rail: #090909;
+  --side: #0d0d0d;
+  --main: #121212;
+  --fg: #f2f2ee;
+  --sub: #cacac4;
+  --muted: #9c9c96;
+  --line: #262626;
+  --field-line: #636360;
+  --hover: #1c1c1c;
+  --active: #272727;
+  --primary: #ffe066;
+  --on-primary: #121212;
+  --ok: #4ac26b;
+  --bad: #ff6b6b;
+  --hl: rgb(255 224 102 / 0.38);
+  --accent: #ffd84d;
+  --hl-soft: rgb(255 224 102 / 0.12);
+  --t-feat: #8fa8f5; --t-fix: #f0a35e; --t-perf: #6fcf97; --t-ship: #c39af0; --t-doc: #6fc6d6; --t-trouble: #f08a80; --t-etc: #9c9c96;
+  --heat0: #1b1b1b; --heat1: #3b3826; --heat2: #786c36; --heat3: #c4a944; --heat4: #ffe066;
+  --shadow: 0 6px 24px rgb(0 0 0 / 0.5);
+  color-scheme: dark;
+}
+
+/* Nord — Arctic Ice Studio 팔레트(Polar Night 바탕 · Frost 강조 · Aurora 종류 색) */
+[data-theme='nord'] {
+  --rail: #242933;
+  --side: #2a303b;
+  --main: #2e3440;
+  --fg: #eceff4;
+  --sub: #d8dee9;
+  --muted: #a7b0c0;
+  --line: #3b4252;
+  --field-line: #778090;
+  --hover: #363d4b;
+  --active: #3f4758;
+  --primary: #88c0d0;
+  --on-primary: #2e3440;
+  --ok: #a3be8c;
+  --bad: #e08f96;
+  --hl: rgb(235 203 139 / 0.35);
+  --accent: #88c0d0;
+  --hl-soft: rgb(235 203 139 / 0.1);
+  --t-feat: #88c0d0; --t-fix: #d99a7d; --t-perf: #a3be8c; --t-ship: #c3a0bd; --t-doc: #8fbcbb; --t-trouble: #e08f96; --t-etc: #a7b0c0;
+  --heat0: #353c4a; --heat1: #434c5e; --heat2: #5e81ac; --heat3: #81a1c1; --heat4: #88c0d0;
+  --shadow: 0 6px 24px rgb(0 0 0 / 0.35);
+  color-scheme: dark;
+}
+
+/* Dracula — 공식 팔레트(보랏빛 바탕 · 분홍 · 초록 · 하늘색 강조) */
+[data-theme='dracula'] {
+  --rail: #1e1f29;
+  --side: #21222c;
+  --main: #282a36;
+  --fg: #f8f8f2;
+  --sub: #dcdce6;
+  --muted: #a6aed2;
+  --line: #3a3c4e;
+  --field-line: #707590;
+  --hover: #323444;
+  --active: #44475a;
+  --primary: #bd93f9;
+  --on-primary: #21222c;
+  --ok: #50fa7b;
+  --bad: #ff7676;
+  --hl: rgb(241 250 140 / 0.3);
+  --accent: #bd93f9;
+  --hl-soft: rgb(241 250 140 / 0.1);
+  --t-feat: #bd93f9; --t-fix: #ffb86c; --t-perf: #50fa7b; --t-ship: #ff79c6; --t-doc: #8be9fd; --t-trouble: #ff7676; --t-etc: #a6aed2;
+  --heat0: #323444; --heat1: #44475a; --heat2: #6272a4; --heat3: #a98bdc; --heat4: #ff79c6;
+  --shadow: 0 6px 24px rgb(0 0 0 / 0.4);
+  color-scheme: dark;
+}
+
+/* Solarized Dark — Ethan Schoonover 팔레트(base03 바탕). 본문은 대비를 위해 base2 */
+[data-theme='solarized-dark'] {
+  --rail: #00212a;
+  --side: #002631;
+  --main: #002b36;
+  --fg: #eee8d5;
+  --sub: #c4c9c3;
+  --muted: #93a1a1;
+  --line: #073642;
+  --field-line: #5c777c;
+  --hover: #073540;
+  --active: #0b3f4b;
+  --primary: #93a1a1;
+  --on-primary: #002b36;
+  --ok: #a3b52a;
+  --bad: #f2716b;
+  --hl: rgb(181 137 0 / 0.4);
+  --accent: #4aa3e6;
+  --hl-soft: rgb(181 137 0 / 0.14);
+  --t-feat: #4aa3e6; --t-fix: #e07a4c; --t-perf: #a3b52a; --t-ship: #a2a6e6; --t-doc: #3cc0b4; --t-trouble: #f2716b; --t-etc: #93a1a1;
+  --heat0: #073642; --heat1: #0e4a59; --heat2: #2a7180; --heat3: #2aa198; --heat4: #93a1a1;
+  --shadow: 0 6px 24px rgb(0 0 0 / 0.4);
+  color-scheme: dark;
+}

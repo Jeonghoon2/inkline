@@ -1,0 +1,9 @@
+{
+  "title": "Spaced repetition improves retention",
+  "kind": "논문",
+  "source": "Cepeda · 2006 · Psychological Bulletin · p.354",
+  "tags": ["학습", "복습"],
+  "summary": "간격을 둔 복습이 몰아서 하는 복습보다 오래 기억된다는 메타분석 결과.",
+  "points": ["간격이 길수록 장기 기억이 좋아진다", "최적 간격은 기억 유지 기간에 비례한다"],
+  "category": "학습"
+}

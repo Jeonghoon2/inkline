@@ -1,0 +1,46 @@
+/* 개념 쇼츠 — 꼬리 질문 영역의 ▶ 60초 쇼츠 버튼과 세로 영상 */
+.sh-btn { border: 1px solid var(--line); background: var(--card); color: var(--fg); border-radius: 999px; padding: 3px 12px; font: inherit; font-size: 12px; font-weight: 600; cursor: pointer; }
+.sh-btn:hover, .sh-btn[aria-expanded="true"] { border-color: var(--accent); color: var(--accent); }
+.sh-btn span { color: var(--muted); font-weight: 400; }
+.sh { margin: 8px 0 4px; }
+/* 쇼츠 플레이어 .vp — 영상이 검은 바탕이라 테마와 상관없이 어두운 조작판. 위 줄 재생 위치, 아래 줄 시간·속도·소리·전체 화면 */
+.vp { position: relative; height: min(70vh, 620px); aspect-ratio: 9 / 16; max-width: 100%; margin: 0 auto 8px; overflow: hidden; background: #000; border-radius: 12px; color: #f4f3ee; outline: none; }
+.vp:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.vp video { display: block; width: 100%; height: 100%; object-fit: contain; cursor: pointer; }
+.vp-flash { position: absolute; left: 50%; top: 50%; width: 64px; height: 64px; margin: -32px 0 0 -32px; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: rgb(0 0 0 / .55); color: #f4f3ee; font-size: 26px; pointer-events: none; opacity: 0; }
+.vp-btn:focus-visible { outline: 2px solid #f4f3ee; outline-offset: 2px; }
+.vp-bar { position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 10px 8px; background: linear-gradient(transparent, rgb(0 0 0 / .72)); } /* 아래 그늘은 흰 글자를 읽히게 하는 기능이라 '그라데이션 면 금지'의 예외 */
+.vp-row { display: flex; align-items: center; gap: 2px; }
+.vp-time { margin-right: auto; padding-left: 2px; font-size: 11.5px; color: #d6d3c9; white-space: nowrap; }
+.vp-btn { display: inline-flex; align-items: center; justify-content: center; min-width: 30px; height: 30px; padding: 0 4px; border: 0; border-radius: 6px; background: none; color: #f4f3ee; font: 600 12px var(--sans); font-size: 16px; cursor: pointer; }
+.vp-btn:hover { background: rgb(244 243 238 / .14); }
+.vp-rate { font-size: 12px; }
+/* 재생 위치 — 지나온 만큼 흰색(--p), 손잡이는 올리거나 잡을 때 커진다 */
+.vp-seek { display: block; width: 100%; height: 16px; margin: 0 0 2px; background: none; cursor: pointer; -webkit-appearance: none; appearance: none; }
+.vp-seek::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(90deg, #f4f3ee var(--p, 0%), rgb(244 243 238 / .3) var(--p, 0%)); }
+.vp-seek::-moz-range-track { height: 4px; border-radius: 2px; background: linear-gradient(90deg, #f4f3ee var(--p, 0%), rgb(244 243 238 / .3) var(--p, 0%)); }
+.vp-seek::-webkit-slider-thumb { -webkit-appearance: none; width: 12px; height: 12px; margin-top: -4px; border: 0; border-radius: 50%; background: #f4f3ee; transform: scale(.0001); }
+.vp-seek::-moz-range-thumb { width: 12px; height: 12px; border: 0; border-radius: 50%; background: #f4f3ee; transform: scale(.0001); }
+.vp:hover .vp-seek::-webkit-slider-thumb, .vp-seek:focus-visible::-webkit-slider-thumb { transform: none; }
+.vp:hover .vp-seek::-moz-range-thumb, .vp-seek:focus-visible::-moz-range-thumb { transform: none; }
+.vp-seek:focus-visible { outline: 2px solid #f4f3ee; outline-offset: 2px; border-radius: 4px; }
+/* 보이기·숨기기 — 멈춰 있거나, 마우스가 움직였거나(.awake), 키보드 포커스가 안에 있으면 보인다(마우스로 누른 단추의 포커스로는 계속 보이지 않게 :focus-visible). 재생/멈춤은 아래 줄 첫 단추나 영상 누르기 */
+.vp[data-state="playing"]:not(.awake):not(:focus-visible):not(:has(:focus-visible)) .vp-bar { opacity: 0; }
+.vp[data-state="playing"]:not(.awake):not(:focus-visible):not(:has(:focus-visible)) { cursor: none; }
+.vp:fullscreen { height: 100%; max-width: none; aspect-ratio: auto; border-radius: 0; }
+.vp:fullscreen .vp-bar { padding: 40px max(16px, calc(50% - 280px)) 16px; }
+.sh-make { border: 0; background: var(--accent); color: var(--bg); border-radius: 8px; padding: 6px 14px; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.sh-make:disabled { opacity: .5; cursor: default; }
+.sh-hint { margin-left: 8px; color: var(--muted); font-size: 12px; }
+.sh-state { margin: 4px 0; font-size: 13px; color: var(--muted); }
+.sh-state code { font-size: 12px; }
+.sh-fail { color: var(--t-trouble); }
+/* 다음 편·이전 편 — 영상 아래(꼬리 질문) · 띠 글 아래. 없으면 줄째 숨는다 */
+.sh-nexts { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px; }
+.sh-nexts:empty { display: none; }
+.sh-next { display: inline-flex; align-items: center; gap: 6px; height: 32px; padding: 0 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--fg); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.sh-next:hover { border-color: var(--accent); color: var(--accent); }
+.sh-next.is-busy { cursor: default; color: var(--muted); font-weight: 400; }
+.d-shorts .sh-next { border-color: #3a3a42; background: #24242a; color: #f4f3ee; }
+.d-shorts .sh-next:hover { border-color: #f4f3ee; color: #f4f3ee; }
+.d-shorts .sh-next.is-busy { color: #bdbab0; }

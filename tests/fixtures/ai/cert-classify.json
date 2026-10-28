@@ -1,0 +1,1 @@
+{ "name": "정보처리기사", "kind": "필기", "subjects": ["소프트웨어 설계", "소프트웨어 개발"], "rules": { "perSubject": 2, "minSubject": 40, "minAvg": 60, "minutes": 10 }, "evidence": "p.1 표지에 '정보처리기사 필기 연습 교재'와 과목 두 개가 있다." }

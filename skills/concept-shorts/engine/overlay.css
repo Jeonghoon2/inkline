@@ -1,0 +1,18 @@
+/* 쇼츠 글자 층 — 화면 틀(1080×1920)·제목·요점 띠·자막·끝 화면. player.html(지금 재생기·품질 검사)과 remotion/(조립)이 같이 쓴다 */
+:root { --fg: #fff; --muted: #8b8b94; --key: #fcd34d; --bad: #f87171; --good: #86efac; --dim: #4b4b52;
+  --c1: #5ab4ff; --c2: #7bd389; --c3: #ffa94d; --c4: #f06fd0; }
+html, body { margin: 0; background: #000; }
+#stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #000; color: var(--fg);
+  font-family: "Apple SD Gothic Neo", "Pretendard", -apple-system, "Malgun Gothic", sans-serif; word-break: keep-all; overflow-wrap: anywhere; } /* Malgun Gothic 은 Windows 용 — 맥엔 앞 글꼴이 있어 그대로 그린다. 띄어쓰기에서 줄을 바꾸고, 낱말 하나가 칸보다 길 때만 중간에서 바꾼다(띄어쓰기 없는 긴 한글이 상자 밖으로 나갔다) */
+#title { position: absolute; top: 160px; left: 60px; right: 60px; text-align: center; font-size: 88px; font-weight: 800; letter-spacing: -2px; }
+#band { position: absolute; top: 282px; left: 60px; right: 60px; height: 70px; }
+#band div { position: absolute; inset: 0; text-align: center; font-size: 46px; font-weight: 700; white-space: nowrap; }
+#sub { position: absolute; top: 1420px; left: 80px; right: 80px; text-align: center; font-size: 58px; font-weight: 700; line-height: 1.42; }
+#brand { position: absolute; left: 60px; bottom: 80px; font-size: 30px; font-weight: 700; color: var(--muted); }
+#end { position: absolute; inset: 0; background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
+#end[hidden] { display: none; }
+#end b { font-size: 120px; color: var(--key); letter-spacing: -2px; }
+#end span { font-size: 50px; color: var(--fg); font-weight: 700; }
+#end small { margin-top: 30px; display: flex; flex-direction: column; align-items: center; gap: 14px; font-size: 44px; font-weight: 700; color: var(--muted); }
+#end small b { font-size: 56px; color: var(--c1); letter-spacing: -1px; }
+#sub .rest { color: rgba(255, 255, 255, .42); }

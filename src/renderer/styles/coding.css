@@ -1,0 +1,52 @@
+.coding { max-width: 860px; margin: 0 auto; padding: 8px 24px 48px; }
+.coding:has(.empty) { min-height: calc(100% - 52px); display: flex; flex-direction: column; justify-content: flex-end; }
+.coding-pad { padding: 24px; }
+.composer-wrap { margin: 0 0 24px; position: relative; z-index: 1; }
+.composer { background: var(--main); border: 1px solid var(--field-line); border-radius: 20px; box-shadow: var(--shadow); padding: 12px 14px; display: grid; gap: 6px; }
+.composer textarea { border: 0; outline: 0; resize: none; background: transparent; color: var(--fg); font: inherit; width: 100%; padding: 4px 2px; }
+.composer-chips, .composer-bottom { display: flex; align-items: center; gap: 8px; }
+.composer-status { flex: 1; font-size: 13px; }
+.chip { display: inline-flex; align-items: center; height: 24px; padding: 0 8px; margin-right: 4px; border: 0; border-radius: 12px; background: var(--hover); color: var(--sub); font: inherit; font-size: 12px; }
+button.chip, select.chip { cursor: pointer; }
+.chip.site { width: 22px; justify-content: center; padding: 0; margin-right: 10px; font-weight: 600; }
+.send { width: 32px; height: 32px; border: 0; border-radius: 50%; display: grid; place-items: center; background: var(--primary); color: var(--on-primary); cursor: pointer; }
+.send:disabled { opacity: 0.35; cursor: default; }
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spin { animation-duration: 3s; } }
+.composer-wrap .err, .problem .err { font-size: 13px; margin: 8px 4px 0; }
+.side-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.side-item[aria-current="true"] .num { color: var(--sub); } /* 고른 칸 바탕(--active) 위에서도 4.5:1 */
+.side-item .num { margin-left: auto; color: var(--muted); font-size: 12px; }
+
+.problem-table { width: 100%; border-collapse: collapse; }
+.problem-table th { text-align: left; font-weight: 400; font-size: 13px; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--line); }
+.problem-table td { padding: 10px 8px; border-bottom: 1px solid var(--line); }
+.problem-table tbody tr { cursor: pointer; }
+.problem-table tbody tr:hover { background: var(--hover); }
+.problem-none { padding: 16px 8px; }
+
+.problem { max-width: 760px; margin: 0 auto; padding: 8px 24px 64px; }
+.problem h1 { font-size: 24px; font-weight: 600; margin: 16px 0 8px; }
+.problem h2 { font-size: 16px; margin: 28px 0 8px; }
+.problem-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; }
+.problem-meta a { margin-right: 8px; color: var(--accent); }
+.problem-body { line-height: 1.7; overflow-wrap: anywhere; }
+.problem-body img { max-width: 100%; height: auto; }
+.problem-body table { border-collapse: collapse; margin: 12px 0; }
+.problem-body th, .problem-body td { border: 1px solid var(--line); padding: 4px 10px; }
+.problem-body pre, .starter { background: var(--hover); border-radius: 8px; padding: 12px; overflow: auto; font-family: var(--mono); font-size: 13px; line-height: 1.5; }
+.problem-body code { font-family: var(--mono); font-size: 0.92em; background: var(--hover); border-radius: 4px; padding: 1px 4px; }
+.problem-body pre code { background: none; padding: 0; }
+
+.mistake-book { display: block; overflow-y: auto; }
+.mistake-group { margin: 0 0 24px; }
+.mistake-group h3 { margin: 0 0 8px; font-size: 15px; }
+.mistake-list { list-style: none; margin: 0; padding: 0; }
+.mistake-item { padding: 8px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.mistake-item p { margin: 4px 0 0; line-height: 1.6; overflow-wrap: anywhere; }
+.mistake-at { margin-left: 8px; font-size: 12px; }
+.mistake-rel { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin: 8px 0 0; font-size: 13px; }
+.link { padding: 0; border: 0; background: none; color: var(--fg); font: inherit; text-decoration: underline; cursor: pointer; text-align: left; }
+.link:hover { text-decoration-thickness: 2px; }
+.link:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }

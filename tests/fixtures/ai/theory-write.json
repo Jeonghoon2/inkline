@@ -1,0 +1,113 @@
+{
+  "summary": [
+    "정렬된 배열에서는 양 끝에서 좁혀 오며 합을 맞춘다.",
+    "합이 작으면 왼쪽을, 크면 오른쪽을 옮긴다.",
+    "두 포인터가 만나면 끝난다."
+  ],
+  "card": [
+    {
+      "caption": "포인터는 칸 번호를 가리킨다.",
+      "highlight": [
+        "포인터"
+      ]
+    },
+    {
+      "caption": "배열이 정렬돼 있어야 한다.",
+      "highlight": [
+        "정렬"
+      ]
+    },
+    {
+      "caption": "조건에 따라 한쪽만 안으로 옮긴다.",
+      "highlight": [
+        "좁히기"
+      ]
+    }
+  ],
+  "progress": [
+    {
+      "caption": "l 은 맨 왼쪽, r 은 맨 오른쪽에서 시작한다. 1 + 8 = 9 는 목표 10 보다 작다.",
+      "highlight": [
+        "l",
+        "r"
+      ],
+      "predict": {
+        "question": "",
+        "choices": [],
+        "answer": 0,
+        "why": "",
+        "notes": []
+      }
+    },
+    {
+      "caption": "l 이 한 칸 오른쪽으로 갔다. 이제 3 + 8 = 11 로 목표보다 크다.",
+      "highlight": [],
+      "predict": {
+        "question": "합이 목표보다 클 때 어느 포인터를 옮길까?",
+        "choices": [
+          "r 을 왼쪽으로",
+          "l 을 오른쪽으로",
+          "둘 다 그대로"
+        ],
+        "answer": 0,
+        "why": "큰 값을 줄여야 합이 작아진다.",
+        "notes": [
+          "맞다. 오른쪽 끝의 큰 값을 버린다.",
+          "합이 더 커진다.",
+          "진행하지 않는다."
+        ]
+      }
+    },
+    {
+      "caption": "r 이 한 칸 왼쪽으로 갔다. 3 + 6 = 9.",
+      "highlight": [],
+      "predict": {
+        "question": "",
+        "choices": [],
+        "answer": 0,
+        "why": "",
+        "notes": []
+      }
+    },
+    {
+      "caption": "l 이 4 로 가서 4 + 6 = 10, 목표를 찾았다.",
+      "highlight": [],
+      "predict": {
+        "question": "",
+        "choices": [],
+        "answer": 0,
+        "why": "",
+        "notes": []
+      }
+    },
+    {
+      "caption": "찾은 두 칸을 그대로 둔다.",
+      "highlight": [],
+      "predict": {
+        "question": "",
+        "choices": [],
+        "answer": 0,
+        "why": "",
+        "notes": []
+      }
+    }
+  ],
+  "flow": [
+    {
+      "caption": "양 끝에서 시작한다.",
+      "highlight": []
+    },
+    {
+      "caption": "합을 목표와 비교한다.",
+      "highlight": []
+    },
+    {
+      "caption": "작으면 l, 크면 r 을 옮긴다.",
+      "highlight": []
+    },
+    {
+      "caption": "만나면 끝낸다.",
+      "highlight": []
+    }
+  ]
+}

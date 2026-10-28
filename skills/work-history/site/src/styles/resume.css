@@ -1,0 +1,119 @@
+/* 이력서 — 원티드 이력서 같은 1단 문서: 흰 종이 한 장, 이름·연락처·소개 → 구역이 위에서 아래로. 강조색 없이 굵기와 회색 단계로만 가른다. 인쇄하면 이력서만 남는다 */
+.cv-tools { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px; max-width: 1040px; margin: 0 auto 16px; }
+.cv-tools span { margin-right: auto; color: var(--muted); font-size: 12px; }
+.cv-tools button { height: 40px; padding: 0 16px; border: 0; border-radius: 10px; background: var(--fg); color: var(--bg); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.cv { --cv-in: 56px; max-width: 1040px; margin: 0 auto; background: var(--card); color: var(--fg); border: 1px solid var(--line); border-radius: 12px; padding: 64px 72px 72px; font-size: 16px; line-height: 1.65; overflow-wrap: break-word; word-break: keep-all; }
+.cv p { margin: 0; }
+.cv ul { margin: 0; padding-left: .9em; list-style: "·  "; }
+.cv li { margin: 2px 0; }
+.cv li::marker { color: var(--muted); }
+.cv b { font-weight: 600; }
+/* 머리 — 이름 28 굵게, 그 아래 회색 연락처 한 줄, 넓게 띄운 소개 */
+.cv-name { margin: 0; font-size: 28px; line-height: 1.35; font-weight: 700; letter-spacing: -0.02em; }
+.cv-contact { display: flex; flex-wrap: wrap; gap: 4px 20px; margin: 10px 0 0 !important; padding: 0 !important; list-style: none !important; color: var(--muted); font-size: 15px; }
+.cv-contact li { margin: 0; }
+.cv-contact .ic { margin-right: 6px; font-size: 14px; }
+.cv-intro { margin-top: 40px !important; font-size: 16px; }
+/* 구역 — 제목 20 굵게, 구역 사이를 크게 띄우고 선은 긋지 않는다 */
+.cv-sec { margin-top: 64px; }
+.cv-sec > h2 { margin: 0 0 20px; font-size: 20px; line-height: 1.4; font-weight: 600; }
+.cv-sec > h2 small { margin-left: 6px; color: var(--muted); font-size: 14px; font-weight: 400; }
+.cv-sec > ul > li { margin: 4px 0; }
+/* 경력 — 회사: 왼쪽 아이콘 칸 + 이름 / '기간 | 역할'. 프로젝트는 아이콘 칸만큼 들여 쓴다 */
+.cv-org { display: flex; gap: 16px; margin-top: 8px; }
+.cv-org-body { flex: 1 1 0; min-width: 0; }
+.cv-tile { display: inline-flex; align-items: center; justify-content: center; flex: none; width: 40px; height: 40px; border-radius: 10px; background: var(--soft); color: var(--fg); font-size: 20px; }
+.cv-org h3 { margin: 0; font-size: 17px; line-height: 1.5; font-weight: 700; }
+.cv-meta { font-weight: 500; }
+.cv-meta span + span::before { content: ""; display: inline-block; width: 1px; height: 12px; margin: 0 12px; background: var(--line); vertical-align: -1px; }
+.cv-proj { margin-top: 32px; font-size: 14.5px; line-height: 1.7; }
+.cv-proj.is-sub { margin-left: var(--cv-in); }
+.cv-proj h3, .cv-proj h4 { margin: 0; font-size: 16px; line-height: 1.5; font-weight: 600; }
+.cv-date { margin-top: 2px !important; color: var(--muted); font-size: 14px; }
+.cv-role { margin-bottom: 6px !important; color: var(--sub); }
+.cv-proj li { color: var(--sub); }
+.cv-proj li b { color: var(--fg); }
+.cv-used li { color: var(--muted) !important; }
+/* 프로젝트 새 꼴 — 회색 머리 줄(소속 │ 기간), 작은 회색 소제목 'Description · What did I do · Skills', 설명 문단은 본문색, Skills 는 작은 테두리 칩 */
+.cv-pmeta { margin-top: 2px !important; color: var(--muted); font-size: 14px; }
+.cv-pmeta span + span::before { content: ""; display: inline-block; width: 1px; height: 11px; margin: 0 10px; background: var(--line); vertical-align: -1px; }
+.cv-part { margin: 14px 0 4px !important; color: var(--muted); font-size: 13px; font-weight: 600; letter-spacing: .01em; }
+.cv-desc { color: var(--fg); }
+.cv-desc + .cv-desc { margin-top: 4px !important; }
+.cv-pskills { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: baseline; gap: 10px; margin-top: 12px; } /* 'Skills' 라벨과 칩을 한 줄에 — 사용자 예시의 '***Skills***: a, b' 꼴 */
+.cv-pskills .cv-part { margin: 0 !important; }
+.cv-pskills .cv-chips { gap: 6px; }
+.cv-pskills .cv-chips li { padding: 1px 9px; border-radius: 6px; font-size: 13px; color: var(--sub); }
+/* 기술 — 분류 이름 + 테두리 칩. 면을 칠하지 않는다 */
+.cv-skill { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 8px 16px; align-items: start; margin-bottom: 12px; }
+.cv-skill-k { padding-top: 5px; color: var(--sub); font-size: 14px; font-weight: 500; }
+.cv-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 !important; list-style: none !important; }
+.cv-chips li { margin: 0; padding: 4px 12px; border: 1px solid var(--line); border-radius: 8px; font-size: 14px; line-height: 1.5; color: var(--fg); }
+.cv-sep, .cv-ck { display: none; } /* 인쇄 때만 보이는 칩 사이 쉼표·연락처 이름 (아래 @media print) */
+.cv-blank { color: #7a5b00; background: #fff3c4; border-radius: 4px; padding: 0 4px; }
+/* 직무 칩 — '기본 · 백엔드 · …'. 원티드 직군 칩처럼 알약 테두리, 고른 칩만 잉크 면 */
+.cv-roles { display: flex; flex-wrap: wrap; gap: 8px; max-width: 1040px; margin: 0 auto 12px; }
+.cv-roles button { height: 36px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--sub); font: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
+.cv-roles button:hover { border-color: var(--fg); color: var(--fg); }
+.cv-roles button[aria-pressed="true"] { border-color: var(--fg); background: var(--fg); color: var(--bg); font-weight: 600; }
+.cv-roles button:focus-visible, .gap-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* 보완할 경험 — 오른쪽 아래 떠 있는 단추(맨 위로 단추 왼쪽) + 위로 펼치는 작은 칸. 이력서 종이에는 들어가지 않는다 */
+.gap { position: fixed; right: 80px; bottom: 24px; z-index: 6; }
+.gap-btn { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 16px; border: 0; border-radius: 999px; background: var(--fg); color: var(--bg); font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.gap-btn .ic { font-size: 17px; }
+.gap-btn b { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px; background: var(--bg); color: var(--fg); font-size: 12px; }
+.gap-panel { position: fixed; right: 24px; bottom: 80px; width: min(400px, calc(100vw - 32px)); max-height: calc(100vh - 120px); overflow: auto; overscroll-behavior: contain; scrollbar-width: thin; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--card); color: var(--fg); font-size: 14px; line-height: 1.6; box-shadow: 0 10px 30px rgb(0 0 0 / .14); }
+.gap-head { display: flex; align-items: baseline; gap: 8px; margin: 0; font-size: 16px; }
+.gap-head span { color: var(--muted); font-size: 13px; }
+.gap-note { margin: 4px 0 0; color: var(--muted); font-size: 12.5px; }
+.gap-panel section { margin-top: 16px; }
+.gap-panel h3 { margin: 0 0 6px; font-size: 13px; font-weight: 600; color: var(--sub); }
+.gap-panel h3 span { color: var(--muted); font-weight: 500; }
+.gap-panel ul { margin: 0; padding-left: .9em; list-style: "·  "; }
+.gap-panel li { margin: 6px 0; color: var(--sub); }
+.gap-panel li::marker { color: var(--muted); }
+.gap-panel li b { color: var(--fg); font-weight: 600; }
+@media (max-width: 640px) {
+  .gap { right: 76px; }
+  .gap-btn { padding: 0 14px; }
+  .gap-label { display: none; } /* 휴대폰에서는 전구 + 개수만 — 본문을 덜 가린다 */
+  .gap-panel { left: 16px; right: 16px; width: auto; } /* 100vw 는 스크롤바 폭까지 들어가 왼쪽 끝에 붙는다 */
+  .cv { --cv-in: 0px; padding: 32px 20px 40px; border-radius: 10px; }
+  .cv-name { font-size: 24px; }
+  .cv-intro { margin-top: 28px !important; }
+  .cv-sec { margin-top: 48px; }
+  .cv-org { gap: 12px; }
+  .cv-tile { width: 32px; height: 32px; border-radius: 8px; font-size: 16px; }
+  .cv-skill { grid-template-columns: minmax(0, 1fr); gap: 6px; margin-bottom: 16px; }
+  .cv-skill { display: block; } /* 종이에서는 '분류: a, b' 한 줄 — 분류 칸·칩 칸 두 단이면 pdftotext 가 분류 이름만 먼저 몰아 읽었다 */
+  .cv-skill-k { padding-top: 0; }
+  .cv-skill .cv-chips { display: inline; }
+}
+@media print {
+  :root { --bg: #fff; --card: #fff; --fg: #17171b; --sub: #3b3a36; --muted: #63625d; --line: #d9d6cc; --soft: #f1efe8; }
+  body { background: #fff; }
+  .wrap { max-width: none; padding: 0; }
+  .top, .cv-tools, .cv-roles, .gap, #timeline, #reports { display: none !important; }
+  #resume { display: block !important; }
+  .cv { max-width: none; border: 0; border-radius: 0; padding: 0; zoom: .8; } /* 화면 크기 그대로 A4 폭에 맞춘다 */
+  /* PDF 글자 추출(ATS) — 웹 글꼴은 한글이 글자 범위마다 조각 글꼴로 나뉘어 PDF 에서 '백 엔 드'처럼 글자 사이가 벌어져 읽힌다. 종이에는 조각 없는 시스템 한글 글꼴을 쓴다 */
+  .cv { font-family: "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans CJK KR", "Noto Sans KR", sans-serif; }
+  .cv-contact .ic { display: none; }
+  .cv-ck, .cv-sep { display: inline; }
+  .cv-ck { color: var(--sub); }
+  .cv-chips { display: block; } /* 칩은 종이에서 쉼표로 이은 글자 한 줄 — 칸으로 두면 추출 순서가 단처럼 섞인다 */
+  .cv-chips li, .cv-pskills .cv-chips li { display: inline; padding: 0; border: 0; border-radius: 0; font-size: inherit; color: var(--fg); }
+  .cv-skill { display: block; } /* 종이에서는 '분류: a, b' 한 줄 — 분류 칸·칩 칸 두 단이면 pdftotext 가 분류 이름만 먼저 몰아 읽었다 */
+  .cv-skill-k { padding-top: 0; }
+  .cv-skill .cv-chips { display: inline; }
+  .cv-pskills { font-size: 13.5px; }
+  .cv-blank { background: none; }
+  @page { size: A4; margin: 16mm 14mm; }
+  .cv-org, .cv-skill, .cv li, .cv-pskills { break-inside: avoid; }
+  .cv-proj:not(:has(.cv-part)) { break-inside: avoid; } /* 옛 꼴 프로젝트는 통째로, 새 꼴은 성과 줄 사이에서만 넘긴다 — 통째로 넘기면 쪽 끝이 비어 3쪽이 됐다 */
+  .cv-sec > h2, .cv-org, .cv-proj h3, .cv-proj h4, .cv-pmeta, .cv-part { break-after: avoid; }
+  .cv-sec { margin-top: 40px; } /* 종이에서는 구역 사이를 줄여 직무 이력서를 A4 2쪽에 담는다 */
+  .cv-intro { margin-top: 24px !important; }
+  .cv-proj { margin-top: 24px; }
+  .cv-skill { margin-bottom: 6px; }
+}

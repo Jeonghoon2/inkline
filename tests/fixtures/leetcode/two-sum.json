@@ -1,0 +1,18 @@
+{
+  "questionFrontendId": "1",
+  "title": "Two Sum",
+  "titleSlug": "two-sum",
+  "difficulty": "Easy",
+  "isPaidOnly": false,
+  "content": "<p>Given an array.</p>\n<p><strong class=\"example\">Example 1:</strong></p>\n<pre>\n<strong>Input:</strong> nums = [2,7,11,15], target = 9\n<strong>Output:</strong> [0,1]\n</pre>\n<p><strong class=\"example\">Example 2:</strong></p>\n<div class=\"example-block\"><p><strong>Input:</strong> <span class=\"example-io\">nums = [3,2,4], target = 6</span></p><p><strong>Output:</strong> <span class=\"example-io\">[1,2]</span></p></div>",
+  "topicTags": [{ "name": "Array" }, { "name": "Hash Table" }],
+  "codeSnippets": [
+    { "langSlug": "cpp", "code": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        \n    }\n};" },
+    { "langSlug": "java", "code": "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        \n    }\n}" },
+    { "langSlug": "python3", "code": "class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        " },
+    { "langSlug": "javascript", "code": "var twoSum = function(nums, target) {\n    \n};" },
+    { "langSlug": "rust", "code": "impl Solution {}" }
+  ],
+  "exampleTestcaseList": ["[2,7,11,15]\n9", "[3,2,4]\n6"],
+  "metaData": "{\n  \"name\": \"twoSum\",\n  \"params\": [{\"name\": \"nums\", \"type\": \"integer[]\"}, {\"name\": \"target\", \"type\": \"integer\"}],\n  \"return\": {\"type\": \"integer[]\", \"size\": 2}\n}"
+}

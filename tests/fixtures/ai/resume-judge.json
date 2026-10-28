@@ -1,0 +1,1 @@
+{ "verdicts": [{ "id": "r1", "verdict": "use", "why": "확인용 가짜 판정" }], "candidates": [{ "title": "확인용 후보", "ids": ["r1"], "why": "확인용" }] }

@@ -1,0 +1,1 @@
+{ "label": "DevOps 엔지니어", "points": ["확인용 가짜 요점"], "postings": [{ "item": "CI/CD 구축 경험", "kind": "자격요건", "seen": "확인용" }], "resume": ["확인용 가짜 패턴"], "cover": [{ "question": "지원 동기", "how": "확인용" }], "checklist": [{ "item": "CI/CD", "evidence": "GitLab CI, 배포", "why": "확인용" }], "sources": [{ "title": "확인용", "url": "https://example.com", "kind": "블로그", "note": "확인용" }] }

@@ -1,0 +1,88 @@
+.practice { height: calc(100% - 52px); display: flex; flex-direction: column; min-height: 0; }
+.phead { display: flex; align-items: center; gap: 8px; padding: 0 16px 8px; flex-wrap: wrap; }
+.phead h1 { margin: 0 8px 0 4px; font-size: 16px; font-weight: 600; max-width: 28ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.phead-note { font-size: 12px; }
+.phead-gap { flex: 1; }
+.phead .btn:disabled { opacity: 0.45; cursor: default; }
+.stagebar { display: flex; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.stage { height: 28px; padding: 0 10px; border: 0; border-radius: 14px; background: transparent; color: var(--muted); font: inherit; font-size: 13px; cursor: pointer; }
+.stage:hover { background: var(--hover); }
+.stage[aria-current='step'] { background: var(--active); color: var(--fg); font-weight: 600; }
+.pbody { flex: 1; min-height: 0; display: grid; border-top: 1px solid var(--line); }
+.ppanel { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.ptabs { display: flex; gap: 4px; padding: 8px 12px 0; border-bottom: 1px solid var(--line); }
+.ptabs button { border: 0; background: transparent; color: var(--muted); font: inherit; padding: 6px 10px; cursor: pointer; border-bottom: 2px solid transparent; }
+.ptabs button[aria-selected='true'] { color: var(--fg); border-bottom-color: var(--fg); }
+.ppanel-body { flex: 1; overflow: auto; padding: 8px 16px 24px; }
+.ppanel-empty { text-align: center; margin-top: 48px; }
+.vsplit, .hsplit { background: var(--line); }
+.vsplit { cursor: col-resize; }
+.hsplit { cursor: row-resize; }
+.vsplit:hover, .hsplit:hover { background: var(--muted); }
+.pright { display: grid; min-width: 0; min-height: 0; }
+.peditor { position: relative; min-height: 0; }
+.editor-host { position: absolute; inset: 0; }
+.predict { position: absolute; inset: 0; z-index: 5; display: grid; place-items: center; background: color-mix(in srgb, var(--main) 70%, transparent); }
+.predict-card { width: min(420px, 90%); padding: 16px; border: 1px solid var(--line); border-radius: 12px; background: var(--main); box-shadow: var(--shadow); display: grid; gap: 8px; }
+.predict-card h3 { margin: 0; font-size: 15px; }
+.predict-card p { margin: 0; font-size: 13px; }
+.predict-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.rpanel { overflow: auto; padding: 8px 16px 16px; min-height: 0; }
+.rpass { color: var(--ok); margin: 0 0 8px; }
+.rpass a { color: var(--accent); margin-left: 8px; }
+.rtabs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+.rtab { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border: 1px solid var(--field-line); border-radius: 14px; background: transparent; color: var(--sub); font: inherit; font-size: 13px; cursor: pointer; }
+.rtab[aria-selected='true'] { background: var(--active); color: var(--fg); }
+.rtab.pass svg { color: var(--ok); }
+.rtab.fail svg, .rtab.error svg, .rtab.timeout svg { color: var(--bad); }
+.rdetail p { margin: 8px 0 2px; font-size: 12px; }
+.val { margin: 0; padding: 8px 10px; background: var(--hover); border-radius: 8px; font-family: var(--mono); font-size: 13px; white-space: pre-wrap; overflow-wrap: anywhere; }
+textarea.val { background: var(--main); border: 1px solid var(--field-line); color: var(--fg); } /* 직접 넣는 시험 값 — 입력 칸 테두리 */
+.val mark { background: var(--hl); color: inherit; }
+.hint-card { padding: 12px 14px; margin: 8px 0; border: 1px solid var(--line); border-radius: 10px; }
+.hint-card h3 { margin: 0 0 6px; font-size: 13px; color: var(--sub); }
+.hint-card p { margin: 6px 0; font-size: 14px; line-height: 1.6; overflow-wrap: anywhere; }
+.hint-stages { display: flex; flex-wrap: wrap; gap: 6px; }
+.hint-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.hint-table th, .hint-table td { text-align: left; vertical-align: top; padding: 6px 8px; border-top: 1px solid var(--line); }
+.hint-table th { width: 90px; color: var(--sub); font-weight: 600; white-space: nowrap; }
+.hint-code { white-space: pre; overflow-x: auto; margin: 6px 0; }
+.hint-self { display: grid; gap: 4px; margin: 12px 0 8px; font-size: 13px; color: var(--sub); }
+.hint-self textarea { resize: vertical; font: inherit; }
+.hint-next { display: inline-flex; align-items: center; gap: 6px; margin: 8px 0; }
+.hint-next:disabled { opacity: 0.6; cursor: default; }
+.parsons { container-type: inline-size; }
+.parsons-cols > div { min-width: 0; }
+.parsons-piece { min-width: 0; }
+.tab-dot { display: inline-block; width: 6px; height: 6px; margin-left: 5px; border-radius: 50%; background: var(--accent); vertical-align: middle; }
+.parsons-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@container (max-width: 640px) { .parsons-cols { grid-template-columns: minmax(0, 1fr); } }
+.parsons h4 { margin: 0 0 4px; font-size: 12px; color: var(--muted); }
+.parsons-list { list-style: none; margin: 0; padding: 6px; min-height: 60px; border: 1px dashed var(--line); border-radius: 8px; display: grid; gap: 4px; align-content: start; }
+.parsons-piece { display: flex; align-items: center; gap: 4px; padding: 2px 4px; background: var(--hover); border-radius: 6px; cursor: grab; }
+.parsons-piece pre { flex: 1; margin: 0; min-width: 0; overflow-x: auto; white-space: pre; font: 12px var(--mono); }
+.parsons-btn { height: 24px; padding: 0 6px; flex: none; }
+.parsons-empty { padding: 8px; font-size: 12px; }
+.parsons-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; }
+.parsons-ok { color: var(--ok); font-size: 13px; }
+
+/* 결과 칸 위 — 단계 안내(ResultPanel). 조용한 한 문단 */
+.rguide { margin: 6px 0 14px; font-size: 13px; line-height: 1.65; color: var(--muted); }
+.rguide-stage { display: inline-block; margin-right: 8px; padding: 0 9px; height: 20px; line-height: 20px; border-radius: 999px; background: var(--hover); color: var(--fg); font-size: 12px; font-weight: 600; vertical-align: 1px; }
+
+/* 편집기 안 멈춤 넛지 띠(nudgeBand.ts) — 커서 줄 아래, 강조색 왼쪽 줄 카드 */
+.nudge-band { box-sizing: border-box; height: 100%; padding: 6px 24px 8px 0; font: 13px/20px var(--sans); }
+.nudge-card { display: inline-flex; align-items: flex-start; gap: 10px; max-width: 100%; box-sizing: border-box; padding: 4px 8px 4px 12px; border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 8px; background: color-mix(in srgb, var(--accent) 8%, var(--main)); color: var(--fg); animation: nudge-in 0.25s ease-out; }
+.nudge-card svg { flex: none; margin-top: 3px; color: var(--accent); }
+.nudge-text { white-space: normal; word-break: keep-all; overflow-wrap: anywhere; }
+.nudge-card kbd { flex: none; margin-top: 1px; padding: 0 6px; border: 1px solid var(--line); border-radius: 4px; color: var(--muted); font: 11px/16px var(--mono); }
+@keyframes nudge-in { from { opacity: 0; transform: translateY(-2px); } }
+@media (prefers-reduced-motion: reduce) { .nudge-card { animation: none; } }
+
+/* 힌트 글 속 `이름` */
+.hints code { padding: 0 4px; border-radius: 4px; background: var(--hover); font: 0.92em var(--mono); }
+
+.approach-chip { position: relative; font-size: 13px; }
+.approach-chip summary { cursor: pointer; list-style: none; padding: 2px 10px; border: 1px solid var(--line); border-radius: 999px; }
+.approach-chip > div { position: absolute; z-index: 5; top: calc(100% + 4px); left: 0; min-width: 260px; max-width: 420px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--main); }
+.approach-chip p { margin: 0 0 4px; }

@@ -1,0 +1,55 @@
+.theory { max-width: min(960px, max(640px, calc((100vh - 440px) * 16 / 9 + 32px))); /* 창이 낮으면 장면을 줄여 질문 · 단추까지 한 화면에 */ margin: 0 auto; padding: 8px 16px 24px; display: flex; flex-direction: column; gap: 12px; box-sizing: border-box; }
+.theory-stage { border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--main); }
+.theory-title { margin: 0; font-size: 14px; font-weight: 600; color: var(--muted); }
+.theory-caption { margin: 0; font-size: 16px; line-height: 1.6; overflow-wrap: anywhere; }
+.theory-caption mark { background: var(--hl-soft); color: inherit; padding: 0 2px; border-radius: 3px; }
+.theory-choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.theory-q { flex-basis: 100%; margin: 4px 0 2px; font-size: 16px; font-weight: 600; line-height: 1.5; }
+.theory-q span { color: var(--accent); margin-right: 2px; }
+.theory-choices .btn { max-width: 100%; height: auto; min-height: 32px; text-align: left; white-space: normal; }
+.theory-choices .btn.picked { border-color: var(--fg); }
+.theory-result { flex-basis: 100%; margin: 0; font-size: 14px; }
+.theory-result.ok { color: var(--ok); }
+.theory-result.bad { color: var(--bad); }
+.theory-why { flex-basis: 100%; margin: 0; font-size: 13px; color: var(--muted); }
+.theory-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.theory-nav .btn:disabled { opacity: 0.45; cursor: default; }
+.theory-progress { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+@media (max-width: 720px) { .theory { padding: 8px 12px 16px; } }
+.theory-head { display: flex; align-items: center; gap: 8px; }
+.theory-wait { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 14px; }
+.theory-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 8px; }
+.theory-card { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; padding: 12px; text-align: left; border: 1px solid var(--line); border-radius: 12px; background: var(--main); color: inherit; font: inherit; cursor: pointer; }
+.theory-card:hover, .theory-card:focus-visible { border-color: var(--fg); }
+.theory-concepts { font-size: 13px; color: var(--muted); }
+.theory-root { flex: 1; min-height: 0; overflow-y: auto; width: 100%; }
+/* 360px = 머리 · 자막 · 단추가 차지하는 높이 */
+.theory .theory { width: min(100%, max(560px, calc((100vh - 360px) * 16 / 9))); /* 아주 낮은 창은 글자가 읽히게 560px 아래로 줄이지 않고 스크롤 */ padding: 0; overflow: visible; }
+/* 장면 만들기 진행 — StageFlow(세로 타임라인) */
+.theory-flow { max-width: 640px; margin: 8px auto 4px; width: 100%; }
+
+/* 그림 옆 코드 — 넓으면 그림 3 : 코드 2, 좁으면 그림 아래 */
+.theory-show { display: grid; gap: 12px; min-width: 0; }
+.theory-show.has-code { grid-template-columns: minmax(0, 3fr) minmax(260px, 2fr); align-items: stretch; }
+.theory-code { margin: 0; border: 1px solid var(--line); border-radius: 12px; background: var(--main); padding: 10px 0; font: 14px/1.7 var(--mono); overflow: auto; position: relative; min-width: 0; }
+.theory-code span { display: block; white-space: pre; padding: 0 12px 0 0; transition: background-color .25s ease; }
+.theory-code span i { display: inline-block; width: 2.6em; padding-right: .8em; text-align: right; color: var(--muted); font-style: normal; user-select: none; }
+.theory-code span.on { background: linear-gradient(var(--fg), var(--fg)) left / 3px 100% no-repeat, var(--hl-soft); } /* 밝은 테마에선 옅은 바탕만으로는 약해 왼쪽 막대를 더한다 */
+.theory-code span.on i { color: var(--fg); }
+@media (min-width: 1181px) {
+  .theory-show.has-code .theory-code { height: 0; min-height: 100%; box-sizing: border-box; } /* 코드 칸 높이는 그림 높이에 맞추고 넘치면 칸 안에서 굴린다 */
+  .theory-root:has(.theory-show.has-code) { max-width: min(1400px, max(640px, calc((100vh - 440px) * 16 / 9 * 5 / 3 + 32px))); }
+  .theory .theory:has(.theory-show.has-code) { width: min(100%, max(560px, calc((100vh - 360px) * 16 / 9 * 5 / 3))); max-width: none; }
+}
+@media (max-width: 1180px) {
+  .theory-show.has-code { grid-template-columns: minmax(0, 1fr); }
+  .theory-code { max-height: 180px; }
+  .theory .theory:has(.theory-show.has-code) { width: min(100%, max(520px, calc((100vh - 540px) * 16 / 9))); } /* 코드 칸(180px)만큼 그림을 줄여 단추까지 한 화면에 */
+}
+.theory-limits p { margin: 0 0 4px; }
+.theory-limits ul { margin: 0; padding-left: 18px; font-size: 13px; color: var(--muted); }
+.theory-problem summary { cursor: pointer; font-size: 14px; }
+.theory-problem .problem-body { max-height: 40vh; overflow: auto; margin-top: 8px; }
+.theory-card-top { display: flex; gap: 6px; flex-wrap: wrap; }
+.theory-clue { font-size: 14px; color: var(--fg); quotes: '“' '”'; }
+.chip.ok { color: var(--ok); border-color: currentColor; }

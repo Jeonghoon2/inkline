@@ -1,0 +1,108 @@
+/* 자격증 탭 */
+.cert { max-width: 960px; margin: 0 auto; padding: 16px; display: flex; flex-direction: column; gap: 16px; box-sizing: border-box; width: 100%; overflow-y: auto; }
+.cert-drop.over { outline: 2px dashed var(--line); outline-offset: -8px; border-radius: 12px; }
+.cert-add { color: var(--muted); }
+.cert-flow { display: flex; flex-direction: column; gap: 8px; }
+.cert-confirm { display: flex; flex-direction: column; gap: 12px; max-width: 560px; }
+.cert-confirm label { display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+.cert-confirm input, .cert-confirm textarea { font: inherit; padding: 6px 8px; border: 1px solid var(--field-line); border-radius: 8px; background: var(--main); color: var(--fg); }
+.cert-confirm fieldset { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.cert-rules label { width: 120px; }
+.cert-kinds .chip { padding: 4px 12px; border: 1px solid var(--field-line); border-radius: 999px; background: transparent; color: var(--fg); cursor: pointer; }
+.cert-kinds .chip.on { background: var(--fg); color: var(--main); }
+.cert-home { display: flex; flex-direction: column; gap: 16px; }
+.cert-home-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.cert-home-head h2 { margin: 0; }
+.cert-dday { color: var(--muted); }
+.cert-today { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; }
+.cert-subj { display: grid; grid-template-columns: minmax(120px, 200px) minmax(0, 1fr) auto; gap: 12px; align-items: center; width: 100%; padding: 6px 4px; background: none; border: 0; color: var(--fg); text-align: left; cursor: pointer; border-radius: 8px; }
+.cert-subj:hover:not(:disabled) { background: var(--side); }
+.cert-subj-n { color: var(--muted); font-size: 13px; }
+.cert-bar { display: flex; height: 10px; border-radius: 5px; border: 1px solid var(--field-line); background: var(--main); overflow: hidden; } /* 바탕은 본문 그대로, 막대 자리는 테두리로 */
+.cert-bar .m { background: var(--fg); }
+.cert-bar .l { background: var(--hl); }
+.cert-map { display: flex; flex-wrap: wrap; gap: 3px; }
+.cert-cell { width: 12px; height: 12px; border-radius: 3px; border: 1px solid var(--line); }
+.cert-cell.mastered { background: var(--fg); border-color: var(--fg); }
+.cert-cell.learning { background: var(--hl); }
+.cert-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.cert-unsplit { border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; display: flex; flex-direction: column; gap: 8px; }
+.cert-unsplit .chip { margin: 0 4px 4px 0; padding: 2px 8px; border: 1px solid var(--field-line); border-radius: 999px; background: transparent; color: var(--fg); cursor: pointer; }
+.cert-remove { align-self: flex-start; color: var(--muted); }
+.cert-page { position: fixed; inset: 8% 10%; background: var(--main); border: 1px solid var(--line); border-radius: 12px; display: flex; flex-direction: column; z-index: 20; }
+.cert-page-head { display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 1px solid var(--line); }
+.cert-page-body { margin: 0; padding: 16px; overflow: auto; white-space: pre-wrap; font-family: var(--sans); line-height: 1.7; }
+.cert-study { display: flex; flex-direction: column; gap: 12px; }
+.cert-bar-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.cert-card { display: flex; flex-direction: column; gap: 12px; padding: 20px; border: 1px solid var(--line); border-radius: 12px; }
+.cert-meta { color: var(--muted); font-size: 13px; }
+.cert-stem { margin: 0; font-size: 20px; line-height: 1.5; }
+.cert-choices { display: flex; flex-direction: column; gap: 8px; }
+.cert-choice { display: flex; gap: 10px; align-items: baseline; text-align: left; padding: 10px 14px; border: 1px solid var(--field-line); border-radius: 10px; background: transparent; color: var(--fg); font: inherit; cursor: pointer; }
+.cert-choice.picked { border-color: var(--fg); box-shadow: inset 3px 0 0 var(--fg); }
+.cert-choice.right { border-color: var(--ok); box-shadow: inset 0 0 0 1px var(--ok); } /* 바탕을 칠하면 초록 '정답' 글자가 4.5:1 아래로 떨어진다 */
+.cert-choice.picked.right { box-shadow: inset 3px 0 0 var(--ok), inset 0 0 0 1px var(--ok); }
+.cert-answer { margin-left: auto; flex: none; color: var(--ok); font-size: 13px; font-weight: 600; }
+.cert-choice.wrong { text-decoration: line-through; color: var(--muted); }
+.cert-choice.picked.wrong { border-color: var(--field-line); } /* 고른 표시는 왼쪽 막대로 — 정답 칸보다 눈에 띄지 않게 */
+.cert-mark { color: var(--muted); }
+.cert-sure { display: flex; gap: 8px; flex-wrap: wrap; }
+.cert-fb { display: flex; flex-direction: column; gap: 6px; line-height: 1.6; }
+.cert-fb p { margin: 0; }
+.cert-refute { font-size: 17px; font-weight: 600; padding: 10px 14px; border-left: 4px solid var(--fg); background: var(--side); border-radius: 0 8px 8px 0; }
+.cert-result.ok { font-weight: 600; }
+.cert-result.bad { font-weight: 600; color: var(--bad); }
+.cert-quote { white-space: pre-wrap; color: var(--sub); font-size: 14px; line-height: 1.7; }
+.cert-done { text-align: center; padding: 40px 0; }
+@media (max-width: 720px) { .cert-subj { grid-template-columns: minmax(0, 1fr); } }
+
+.cert-mock { display: flex; flex-direction: column; gap: 12px; }
+.cert-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.cert-tabs .chip { padding: 4px 12px; border: 1px solid var(--field-line); border-radius: 999px; background: transparent; color: var(--fg); cursor: pointer; }
+.cert-tabs .chip[aria-selected="true"] { background: var(--fg); color: var(--main); }
+.cert-mock-body { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 12px; align-items: start; }
+.cert-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.cert-num { padding: 6px 0; border: 1px solid var(--field-line); border-radius: 6px; background: transparent; color: var(--fg); cursor: pointer; font: inherit; }
+/* 푼 칸은 채워 반전, 지금 칸은 강조색 테두리, '나중에 보기'는 깃발 — 색 하나에 기대지 않는다 */
+.cert-num.done { background: var(--fg); border-color: var(--fg); color: var(--main); }
+.cert-num.flag::after { content: ' ⚑' / ''; font-size: 11px; }
+.cert-num[aria-current="true"] { outline: 2px solid var(--accent); outline-offset: 1px; }
+.cert-scores { display: flex; flex-direction: column; gap: 8px; }
+.cert-score { display: grid; grid-template-columns: minmax(120px, 200px) minmax(0, 1fr) 140px; gap: 12px; align-items: center; }
+.cert-score .num { text-align: right; }
+.cert-score .cert-bar { position: relative; }
+.cert-score.failed .num { font-weight: 600; }
+@media (max-width: 960px) { .cert-mock-body { grid-template-columns: minmax(0, 1fr); } .cert-grid { grid-template-columns: repeat(10, 1fr); } }
+.cert-score .cert-bar .cut { position: absolute; top: 0; bottom: 0; width: 2px; background: var(--hl); box-shadow: 0 0 0 1px var(--fg); }
+.cert-wrongs, .cert-pairs { display: flex; flex-direction: column; gap: 12px; }
+.cert-pair { display: flex; justify-content: space-between; gap: 12px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: transparent; color: var(--fg); font: inherit; text-align: left; cursor: pointer; }
+.cert-diffs { margin: 0; padding-left: 20px; line-height: 1.7; }
+.cert-pair-q { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--line); padding-top: 12px; }
+.cert-group { display: flex; flex-direction: column; gap: 12px; }
+.cert-group-h { margin: 8px 0 0; font-size: 15px; }
+.cert-side { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.cert-side > div { padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; }
+.cert-side p { margin: 6px 0 0; line-height: 1.6; }
+@media (max-width: 960px) { .cert-side { grid-template-columns: 1fr; } }
+
+/* 교재 넣기 흐름 · 문제 준비 표시 */
+.cert-flow-actions { display: flex; justify-content: flex-end; gap: 8px; }
+.cert-flow-actions:empty { display: none; }
+.cert-prep { display: flex; flex-direction: column; gap: 8px; padding: 14px 0; }
+.cert-prep-row { display: flex; justify-content: space-between; gap: 12px; }
+.cert-prep .tl-wave { flex: none; height: 3px; } /* 세로 flex 안에서는 flex-basis 100% 가 높이를 0 으로 만든다 */
+
+/* 가져오기 · 항목 나누기 중 — 진행만 화면 가운데에 크게 */
+.cert-flow.is-big { flex: 1; min-height: min(70vh, 560px); justify-content: center; width: min(100%, 720px); margin: 0 auto; gap: 16px; }
+.cert-flow.is-big .tl-view { height: 260px; }
+.cert-flow.is-big .tl-row { grid-template-columns: 28px minmax(0, 1fr); }
+.cert-flow.is-big .tl-items { padding-bottom: 22px; }
+.cert-flow.is-big .tl-row.is-focus .tl-head b { font-size: 20px; }
+.cert-flow.is-big .tl-row.is-focus .tl-note { font-size: 14px; }
+.cert-flow.is-big .tl-row.is-focus .tl-dot { width: 24px; height: 24px; }
+.cert-flow.is-big .tl-row.is-focus .tl-bar, .cert-flow.is-big .tl-row.is-focus .tl-wave { height: 6px; margin-top: 6px; }
+.cert-flow.is-big .cert-flow-actions { justify-content: center; }
+
+.cert-check-note { border-left: 3px solid var(--line); padding: 4px 0 4px 12px; display: flex; flex-direction: column; gap: 4px; }
+.cert-check-note p { margin: 0; font-size: 13px; }
+.cert-check-note .warn { color: var(--fg); font-weight: 600; }

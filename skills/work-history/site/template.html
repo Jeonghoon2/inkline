@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My History</title>
+<script>
+// 테마 — 고른 것이 있으면 그것, 없으면 시스템 설정. 글자가 그려지기 전에 정해야 깜빡이지 않는다
+let theme; try { theme = localStorage.getItem('mh-theme') } catch {}
+document.documentElement.dataset.theme = theme ?? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans+KR:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+/*__STYLES__*/
+</style>
+</head>
+<body>
+<div class="page-progress" aria-hidden="true"></div>
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="eyebrow num" id="built">MY HISTORY</div>
+      <h1>작업 기록</h1>
+    </div>
+    <div class="top-r">
+    <nav class="tabs" aria-label="탭">
+      <button type="button" class="on" data-tab="timeline" aria-current="page">타임라인</button>
+      <button type="button" data-tab="reports">주간 보고</button>
+      <button type="button" data-tab="resume">이력서</button>
+    </nav>
+    <button type="button" class="theme" id="theme"></button>
+    </div>
+  </header>
+  <section id="timeline">
+    <div class="overview" id="overview"></div>
+    <div class="filters" id="filters"></div>
+    <div id="list"></div>
+  </section>
+  <section id="reports" hidden></section>
+  <section id="resume" hidden></section>
+</div>
+<button type="button" class="to-top" id="toTop" aria-label="맨 위로" title="맨 위로"></button>
+<dialog class="detail" id="detail" closedby="any"></dialog>
+<script>
+/*__SCRIPTS__*/
+</script>
+</body>
+</html>

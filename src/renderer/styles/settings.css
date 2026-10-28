@@ -1,0 +1,26 @@
+.settings { max-width: 720px; margin: 0 auto; padding: 8px 32px 64px; }
+.settings h1 { font-size: 24px; font-weight: 600; margin: 0 0 24px; letter-spacing: -0.02em; }
+.settings section { border-top: 1px solid var(--line); padding: 20px 0; }
+.settings h2 { display: flex; align-items: center; gap: 6px; font-size: 15px; font-weight: 600; margin: 0 0 8px; }
+.settings p { margin: 0 0 12px; }
+.settings .row { display: flex; align-items: center; gap: 12px; min-height: 40px; }
+.settings .row .name { min-width: 160px; }
+.settings .row-hint { margin: -2px 0 8px 172px; font-size: 12px; } /* 이름 칸(160px) + 간격 뒤, 입력칸 아래 */
+.settings .row.disabled { opacity: 0.5; }
+.settings label.btn { display: inline-flex; align-items: center; } /* 파일 고르기 — label 이라 button 과 세로 맞춤을 맞춘다 */
+.settings .photo-thumb { width: 48px; height: 64px; object-fit: cover; border-radius: 6px; border: 1px solid var(--line); }
+.settings .path { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 13px var(--mono); color: var(--sub); }
+.settings .num { width: 80px; }
+.settings .num-note { font-size: 12px; color: var(--t-fix); }
+.settings .err { font-size: 13px; }
+.settings .cli-row { gap: 12px; flex-wrap: wrap; margin: 0 -10px; padding: 4px 10px; border-radius: 10px; }
+.settings .cli-row.on { background: var(--side); }
+.settings .cli-pick { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 260px; cursor: pointer; }
+.settings .cli-row.disabled .cli-pick { cursor: default; }
+.settings .cli-opts { display: flex; align-items: center; gap: 8px; margin-left: auto; flex-wrap: wrap; justify-content: flex-end; }
+.settings .cli-opts .field { width: 180px; }
+.settings .cli-opts .select { min-width: 140px; }
+.settings input[type="radio"], .settings input[type="checkbox"] { accent-color: var(--fg); }
+.settings .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.settings .chip-toggle { padding: 3px 10px; border: 1px solid var(--field-line); border-radius: 999px; background: var(--main); color: var(--sub); font-size: 13px; cursor: pointer; }
+.settings .chip-toggle[aria-pressed='true'] { border-color: var(--accent); background: var(--hl-soft); color: var(--fg); }

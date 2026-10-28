@@ -1,0 +1,40 @@
+{
+  "approaches": [
+    {
+      "name": "정렬 후 양 끝에서 좁히기",
+      "nature": "algorithm",
+      "why": "배열에서 두 수를 골라 목표 합을 만든다는 단서라, 정렬해 두면 양 끝에서 합을 견줄 수 있는 투 포인터 개념이 맞습니다.",
+      "concepts": [
+        {
+          "key": "two-pointers",
+          "name": "투 포인터",
+          "nature": "algorithm",
+          "tag": "투 포인터"
+        }
+      ],
+      "complexity": "O(N log N)",
+      "clue": "Given an array."
+    },
+    {
+      "name": "해시로 짝 찾기",
+      "nature": "hybrid",
+      "why": "이미 본 값을 빠르게 찾아야 하므로 한 번 훑으며 기억해 두는 방식이 맞습니다.",
+      "concepts": [
+        {
+          "key": "one-pass-scan",
+          "name": "한 번 훑기",
+          "nature": "algorithm",
+          "tag": "구현"
+        },
+        {
+          "key": "hash-map",
+          "name": "해시 맵",
+          "nature": "datastructure",
+          "tag": "해시"
+        }
+      ],
+      "complexity": "O(N)",
+      "clue": "nums = [2,7,11,15], target = 9"
+    }
+  ]
+}

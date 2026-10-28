@@ -1,0 +1,240 @@
+{
+  "summary": [
+    "정렬된 배열에서 합이 목표인 두 수를 찾는 문제입니다.",
+    "모든 쌍을 보면 느리므로 양 끝에서 좁혀 오는 방식이 어울립니다.",
+    "합이 작으면 왼쪽을, 크면 오른쪽을 옮깁니다."
+  ],
+  "scenes": [
+    {
+      "component": "Caption",
+      "title": "문제 읽기",
+      "props": "{\"quote\":\"정렬된 배열에서 합이 목표값인 두 수의 위치를 찾으세요.\"}",
+      "beats": [
+        {
+          "caption": "문제의 핵심은 두 수의 합과 정렬된 배열입니다.",
+          "highlight": [
+            "두 수의 합",
+            "정렬된 배열"
+          ],
+          "state": "{}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        },
+        {
+          "caption": "배열이 길어질 수 있으니 쌍을 전부 보는 방법은 부담스럽습니다.",
+          "highlight": [
+            "전부 보는 방법"
+          ],
+          "state": "{}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        }
+      ]
+    },
+    {
+      "component": "CompareCard",
+      "title": "두 가지 접근",
+      "props": "{\"left\":{\"label\":\"모든 쌍 확인\",\"points\":[\"쉽게 떠올릴 수 있습니다.\",\"배열이 길면 오래 걸립니다.\"]},\"right\":{\"label\":\"양 끝에서 좁히기\",\"points\":[\"정렬 덕분에 방향을 정할 수 있습니다.\",\"한 번만 훑으면 끝납니다.\"]},\"summary\":\"정렬되어 있으니 양 끝에서 좁히는 쪽이 알맞습니다.\"}",
+      "beats": [
+        {
+          "caption": "먼저 단순한 방법입니다.",
+          "highlight": [],
+          "state": "{\"focus\":\"left\"}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        },
+        {
+          "caption": "이번에는 양 끝에서 좁히는 방법입니다.",
+          "highlight": [],
+          "state": "{\"focus\":\"right\"}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        },
+        {
+          "caption": "이 문제에는 두 번째가 맞습니다.",
+          "highlight": [],
+          "state": "{\"focus\":\"summary\"}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        }
+      ]
+    },
+    {
+      "component": "Flow",
+      "title": "풀이 흐름",
+      "props": "{\"nodes\":[\"양 끝에 두기\",\"합 구하기\",\"목표와 비교\",\"한 쪽 옮기기\"]}",
+      "beats": [
+        {
+          "caption": "양 끝에서 시작합니다.",
+          "highlight": [],
+          "state": "{\"at\":0}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        },
+        {
+          "caption": "두 수를 더합니다.",
+          "highlight": [],
+          "state": "{\"at\":1}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        },
+        {
+          "caption": "목표와 견주어 방향을 정합니다.",
+          "highlight": [
+            "방향"
+          ],
+          "state": "{\"at\":2}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        },
+        {
+          "caption": "정한 쪽 포인터만 옮깁니다.",
+          "highlight": [],
+          "state": "{\"at\":3}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        }
+      ]
+    },
+    {
+      "component": "GridTable",
+      "title": "쌍의 합 표",
+      "props": "{\"rows\":[\"1\",\"3\",\"4\"],\"cols\":[\"3\",\"4\",\"6\"]}",
+      "beats": [
+        {
+          "caption": "행과 열의 수를 더한 값을 표로 봅니다.",
+          "highlight": [],
+          "state": "{\"cells\":[[\"4\",\"5\",\"7\"],[\"6\",\"7\",\"9\"],[\"7\",\"8\",\"10\"]],\"focus\":null}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        },
+        {
+          "caption": "목표 7 이 되는 칸을 찾습니다.",
+          "highlight": [
+            "목표 7"
+          ],
+          "state": "{\"cells\":[[\"4\",\"5\",\"7\"],[\"6\",\"7\",\"9\"],[\"7\",\"8\",\"10\"]],\"focus\":[0,2]}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        }
+      ]
+    },
+    {
+      "component": "GraphView",
+      "title": "이동 관계",
+      "props": "{\"nodes\":[\"L\",\"M\",\"R\"],\"edges\":[[\"L\",\"M\"],[\"M\",\"R\"]],\"directed\":false}",
+      "beats": [
+        {
+          "caption": "왼쪽에서 시작합니다.",
+          "highlight": [],
+          "state": "{\"current\":\"L\",\"visited\":[\"L\"]}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        },
+        {
+          "caption": "가운데를 거쳐 오른쪽으로 갑니다.",
+          "highlight": [],
+          "state": "{\"current\":\"R\",\"visited\":[\"L\",\"M\",\"R\"]}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        }
+      ]
+    },
+    {
+      "component": "StackQueue",
+      "title": "후보 보관",
+      "props": "{\"kind\":\"queue\"}",
+      "beats": [
+        {
+          "caption": "후보 위치를 차례로 담아 둡니다.",
+          "highlight": [],
+          "state": "{\"items\":[\"0\",\"4\"],\"op\":\"담기\"}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        },
+        {
+          "caption": "확인이 끝난 후보는 앞에서 뺍니다.",
+          "highlight": [],
+          "state": "{\"items\":[\"4\"],\"op\":\"빼기\"}",
+          "predict": {
+            "question": "",
+            "choices": [],
+            "answer": 0,
+            "why": "",
+            "notes": []
+          }
+        }
+      ]
+    }
+  ]
+}

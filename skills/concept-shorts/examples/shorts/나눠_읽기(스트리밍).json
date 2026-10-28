@@ -1,0 +1,490 @@
+{
+  "title": "나눠 읽기(스트리밍)",
+  "question": "그럼 서버 쪽 커서엔 단점이 없을까요?",
+  "beats": [
+    {
+      "role": "problem",
+      "say": "야간 정산 첫 실행이 11일째 날을 처리하다 오류 없이 꺼졌어요.",
+      "band": {
+        "tone": "bad",
+        "text": "10일치 처리한 뒤 종료"
+      },
+      "draw": [
+        {
+          "type": "big",
+          "id": "exit",
+          "text": "exit 137",
+          "tone": "bad",
+          "sub": "11일째(10/18) 처리하던 중"
+        }
+      ]
+    },
+    {
+      "role": "problem",
+      "say": "137은 강제 종료예요. 이번엔 메모리 1GB를 다 썼죠. 왜 모자랐을까요?",
+      "band": {
+        "tone": "bad",
+        "text": "상한 1GB 초과"
+      },
+      "draw": [
+        {
+          "type": "flow",
+          "id": "sig",
+          "dir": "row",
+          "nodes": [
+            {
+              "label": "exit 137",
+              "tone": "bad"
+            },
+            {
+              "label": "강제 종료",
+              "tone": "key"
+            },
+            {
+              "label": "메모리",
+              "sub": "상한 1GB",
+              "tone": "bad"
+            }
+          ],
+          "arrows": [
+            "뜻",
+            "이번 원인"
+          ]
+        }
+      ]
+    },
+    {
+      "role": "idea",
+      "say": "코드를 보니 하루치 32만 줄을 통째로 올렸어요.",
+      "band": {
+        "tone": "key",
+        "text": "한꺼번에 읽기"
+      },
+      "draw": [
+        {
+          "type": "flow",
+          "id": "pipe",
+          "dir": "row",
+          "nodes": [
+            {
+              "label": "DB",
+              "sub": "하루 32만 줄",
+              "tone": "c1"
+            },
+            {
+              "label": "메모리",
+              "sub": "32만 줄 전부",
+              "tone": "bad"
+            },
+            {
+              "label": "결과",
+              "tone": "c2"
+            }
+          ],
+          "arrows": [
+            "통째로",
+            "변환"
+          ]
+        }
+      ]
+    },
+    {
+      "role": "idea",
+      "say": "그러면 메모리가 줄 수만큼 커져, 언젠가 넘쳐요.",
+      "band": {
+        "tone": "key",
+        "text": "O(N): 줄 수에 비례"
+      },
+      "draw": [
+        {
+          "type": "cells",
+          "id": "mem",
+          "label": "줄이 늘수록 → 언젠가 넘침",
+          "items": [
+            {
+              "v": "줄",
+              "tone": "c3"
+            },
+            {
+              "v": "줄",
+              "tone": "c3"
+            },
+            {
+              "v": "줄",
+              "tone": "c3"
+            },
+            {
+              "v": "줄",
+              "tone": "c3"
+            },
+            {
+              "v": "줄",
+              "tone": "c3"
+            },
+            {
+              "v": "줄",
+              "tone": "c3"
+            },
+            {
+              "v": "줄",
+              "tone": "c3"
+            },
+            {
+              "v": "상한",
+              "tone": "key"
+            },
+            {
+              "v": "넘침",
+              "tone": "bad"
+            },
+            {
+              "v": "넘침",
+              "tone": "bad"
+            }
+          ],
+          "focus": [
+            8,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "role": "idea",
+      "say": "그래서 증설 대신 조금씩 받고 버리는 나눠 읽기로 고쳤어요.",
+      "band": {
+        "tone": "key",
+        "text": "O(묶음)으로 고정"
+      },
+      "draw": [
+        {
+          "type": "list",
+          "id": "pick",
+          "items": [
+            {
+              "text": "메모리 증설",
+              "tone": "dim"
+            },
+            {
+              "text": "나눠 읽기",
+              "tone": "good"
+            }
+          ]
+        },
+        {
+          "type": "cells",
+          "id": "mem",
+          "label": "32만 줄 = 5천 줄 × 64묶음",
+          "items": [
+            {
+              "v": "5천",
+              "tone": "key"
+            },
+            {
+              "v": "5천",
+              "tone": "dim"
+            },
+            {
+              "v": "5천",
+              "tone": "dim"
+            },
+            {
+              "v": "5천",
+              "tone": "dim"
+            },
+            {
+              "v": "5천",
+              "tone": "dim"
+            },
+            {
+              "v": "…",
+              "tone": "dim"
+            },
+            {
+              "v": "64번",
+              "tone": "dim"
+            }
+          ],
+          "focus": [
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "role": "example",
+      "say": "이때 결과를 DB에 둔 채 5천 줄씩 꺼내는 서버 쪽 커서를 썼어요.",
+      "band": {
+        "tone": "key",
+        "text": "질의 1번, 5천 줄씩"
+      },
+      "draw": [
+        {
+          "type": "flow",
+          "id": "pipe",
+          "dir": "row",
+          "nodes": [
+            {
+              "label": "DB",
+              "sub": "결과 저장",
+              "tone": "c1"
+            },
+            {
+              "label": "메모리",
+              "sub": "5천 줄",
+              "tone": "key"
+            },
+            {
+              "label": "결과",
+              "tone": "c2"
+            }
+          ],
+          "arrows": [
+            "5천 줄씩",
+            "합산"
+          ]
+        }
+      ]
+    },
+    {
+      "role": "example",
+      "say": "꺼낸 줄은 바로 합산하니, 합산 전 줄은 한 묶음뿐이에요.",
+      "band": {
+        "tone": "key",
+        "text": "읽고 → 합산 → 묶음 끝나면 비우기"
+      },
+      "draw": [
+        {
+          "type": "cells",
+          "id": "mem",
+          "label": "묶음 차례",
+          "items": [
+            {
+              "v": "합산",
+              "tone": "good"
+            },
+            {
+              "v": "5천",
+              "tone": "key"
+            },
+            {
+              "v": "5천",
+              "tone": "dim"
+            },
+            {
+              "v": "5천",
+              "tone": "dim"
+            },
+            {
+              "v": "5천",
+              "tone": "dim"
+            },
+            {
+              "v": "5천",
+              "tone": "dim"
+            },
+            {
+              "v": "5천",
+              "tone": "dim"
+            },
+            {
+              "v": "5천",
+              "tone": "dim"
+            },
+            {
+              "v": "5천",
+              "tone": "dim"
+            },
+            {
+              "v": "5천",
+              "tone": "dim"
+            }
+          ],
+          "focus": [
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "role": "example",
+      "say": "운영과 같은 1GB에서 재니 예전 코드는 540MB였어요.",
+      "band": {
+        "tone": "key",
+        "text": "하루치 32만 줄 측정"
+      },
+      "draw": [
+        {
+          "type": "gauge",
+          "id": "old",
+          "label": "예전 코드",
+          "value": 540,
+          "max": 1200,
+          "limit": 1000,
+          "limitLabel": "상한 1GB",
+          "unit": "MB",
+          "tone": "c3"
+        }
+      ]
+    },
+    {
+      "role": "twist",
+      "say": "그런데 하루치만으론 1GB 안이에요.",
+      "band": {
+        "tone": "bad",
+        "text": "그럼 왜 꺼졌지?"
+      },
+      "draw": [
+        {
+          "type": "gauge",
+          "id": "old",
+          "label": "하루치 1회",
+          "value": 540,
+          "max": 1200,
+          "limit": 1000,
+          "limitLabel": "상한 1GB",
+          "unit": "MB",
+          "tone": "c3"
+        },
+        {
+          "type": "cells",
+          "id": "room",
+          "label": "1GB 중 남은 자리",
+          "items": [
+            {
+              "v": "사용",
+              "tone": "c3"
+            },
+            {
+              "v": "사용",
+              "tone": "c3"
+            },
+            {
+              "v": "사용",
+              "tone": "c3"
+            },
+            {
+              "v": "사용",
+              "tone": "c3"
+            },
+            {
+              "v": "사용",
+              "tone": "c3"
+            },
+            {
+              "v": "여유",
+              "tone": "good"
+            },
+            {
+              "v": "여유",
+              "tone": "good"
+            },
+            {
+              "v": "여유",
+              "tone": "good"
+            },
+            {
+              "v": "여유",
+              "tone": "good"
+            },
+            {
+              "v": "여유",
+              "tone": "good"
+            }
+          ],
+          "focus": [
+            5,
+            9
+          ]
+        }
+      ]
+    },
+    {
+      "role": "twist",
+      "say": "그래서 11일째 꺼진 건 여러 날 쌓인 탓으로 보여요.",
+      "band": {
+        "tone": "key",
+        "text": "누적 탓(추정)"
+      },
+      "draw": [
+        {
+          "type": "gauge",
+          "id": "old",
+          "label": "하루치 1회",
+          "value": 540,
+          "max": 1200,
+          "limit": 1000,
+          "limitLabel": "상한 1GB",
+          "unit": "MB",
+          "tone": "dim"
+        },
+        {
+          "type": "flow",
+          "id": "days",
+          "dir": "row",
+          "nodes": [
+            {
+              "label": "1일째",
+              "tone": "c1"
+            },
+            {
+              "label": "10일째",
+              "sub": "처리 완료",
+              "tone": "c1"
+            },
+            {
+              "label": "11일째",
+              "sub": "10/18 중 꺼짐",
+              "tone": "bad"
+            }
+          ],
+          "arrows": [
+            "쌓임?",
+            "쌓임?"
+          ]
+        }
+      ]
+    },
+    {
+      "role": "result",
+      "say": "같은 하루치 기준, 540MB가 135MB로 줄었어요.",
+      "band": {
+        "tone": "good",
+        "text": "75% 감소"
+      },
+      "draw": [
+        {
+          "type": "compare",
+          "id": "res",
+          "before": {
+            "label": "예전",
+            "value": "540MB"
+          },
+          "after": {
+            "label": "고친 코드",
+            "value": "135MB"
+          }
+        }
+      ]
+    },
+    {
+      "role": "outro",
+      "say": "그럼 서버 쪽 커서엔 단점이 없을까요?",
+      "band": {
+        "tone": "key",
+        "text": "면접 꼬리 질문"
+      },
+      "draw": [
+        {
+          "type": "big",
+          "id": "q",
+          "text": "서버 쪽 커서",
+          "sub": "단점은?",
+          "tone": "key"
+        }
+      ]
+    }
+  ]
+}
