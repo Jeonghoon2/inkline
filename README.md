@@ -149,10 +149,6 @@ docs/media/     screenshots and demo videos for this README
 
 To use test replies instead of real AI output, run with `INKLINE_FAKE_AI=1`. It reads `tests/fixtures/ai/<task>.json`, so run it from the repository folder.
 
-## Status
-
-This is a personal project at version 0.1.0. Fixes made during daily use keep piling up, so features may change or go away. The Windows installer was built and tested, but I haven't used it on a real Windows PC for long. Issues and suggestions are welcome.
-
 ## Support
 
 <a href="https://www.buymeacoffee.com/jeonghoon"><img src="https://img.buymeacoffee.com/button-api/?text=happy%20today&emoji=&slug=jeonghoon&button_colour=FFDD00&font_colour=000000&font_family=Lato&outline_colour=000000&coffee_colour=ffffff" /></a>

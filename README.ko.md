@@ -149,10 +149,6 @@ docs/media/     이 README의 화면과 시연 영상
 
 AI 응답 대신 시험용 응답을 쓰려면 `INKLINE_FAKE_AI=1`로 실행합니다. 이때 `tests/fixtures/ai/<작업>.json`을 읽으므로 저장소 폴더에서 실행해야 합니다.
 
-## 현재 상태
-
-개인 프로젝트이고 아직 0.1.0입니다. 사용 중 고친 것을 계속 쌓는 중이라 기능이 바뀌거나 빠질 수 있습니다. Windows 설치 파일은 만들어 시험했지만 실제 Windows PC에서 오래 써 보지는 못했습니다. 이슈와 제안은 환영합니다.
-
 ## 후원
 
 <a href="https://www.buymeacoffee.com/jeonghoon"><img src="https://img.buymeacoffee.com/button-api/?text=happy%20today&emoji=&slug=jeonghoon&button_colour=FFDD00&font_colour=000000&font_family=Lato&outline_colour=000000&coffee_colour=ffffff" /></a>
